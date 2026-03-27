@@ -55,6 +55,7 @@ Installiert:
 nix.stack/
 ├── online/                     # Fuer Maschinen mit Internet + Git
 │   ├── hooks/schutz.sh         # PreToolUse: Destruktions-Schutz
+│   ├── hooks/pre-commit-check.sh  # PreToolUse: CHANGELOG + Secrets Check
 │   ├── skills/kritiker-web/    # /kritiker-web — Web-Security + Quality Review
 │   ├── rules/arbeitsumgebung.md
 │   ├── settings-snippet.json   # Hook-Registrierung (Referenz)
@@ -73,12 +74,62 @@ nix.stack/
 │   └── setup.sh                # Ein-Klick-Installation
 ├── shared/                     # Gemeinsame Bausteine
 │   ├── hooks/schutz.sh         # Konfigurierbarer Basis-Schutz-Hook
+│   ├── hooks/pre-commit-check.sh  # CHANGELOG + Secrets Pruefung
+│   ├── hooks/pre-commit-kritiker-prompt.md  # Agent-Prompt Referenz
 │   ├── hooks/notification.sh   # Desktop-Benachrichtigung (Linux + macOS)
 │   └── tmux.conf               # tmux-Konfiguration (optional)
 ├── HARNESS.md                  # Theorie + Dokumentation des Harness-Ansatzes
 ├── CHANGELOG.md
 └── README.md
 ```
+
+## Pre-Commit Workflow
+
+Jeder `git commit` durchlaeuft automatisch drei Pruefungen:
+
+```
+Code-Aenderung
+    │
+    ▼
+┌─────────────────────────────────┐
+│ 1. Schutz-Hook (command)        │  Exit 2 → blockiert
+│    rm -rf, Secrets, force-push  │
+└─────────────┬───────────────────┘
+              │
+              ▼
+┌─────────────────────────────────┐
+│ 2. Pre-Commit-Check (command)   │  Exit 2 → blockiert
+│    CHANGELOG.md vorhanden?      │
+│    Secrets im Diff?             │
+│    .env-Dateien im Commit?      │
+│    SSH-Keys im Commit?          │
+└─────────────┬───────────────────┘
+              │
+              ▼
+┌─────────────────────────────────┐
+│ 3. Kritiker-Agent (agent)       │  Feedback → Claude entscheidet
+│    Sicherheit (OWASP)           │
+│    Qualitaet & Sinn             │
+│    Docs aktuell?                │
+│    README-Update noetig?        │
+└─────────────┬───────────────────┘
+              │
+              ▼
+         git commit
+              │
+              ▼
+┌─────────────────────────────────┐
+│ 4. Code-Review (agent, post)    │  Zweite Verteidigungslinie
+│    Analyse nach Commit          │
+└─────────────────────────────────┘
+              │
+              ▼
+          git push
+```
+
+**Stufe 1+2** sind mechanisch — sie blockieren den Commit hart (Exit 2).
+**Stufe 3** ist intelligent — der Kritiker-Agent gibt Feedback, Claude reagiert.
+**Stufe 4** ist die Nachkontrolle — laeuft nach dem Commit als Sicherheitsnetz.
 
 ## Schutz-Hook im Detail
 

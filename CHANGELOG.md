@@ -1,5 +1,12 @@
 # Changelog — nix.stack
 
+## 2026-03-27 — v1.2.0
+- Pre-Commit Workflow: Zweistufige Pruefung vor jedem git commit
+  - Command-Hook: Blockiert Commit wenn CHANGELOG.md fehlt oder Secrets im Diff
+  - Agent-Hook: Kritiker-Review auf Sicherheit, Qualitaet, Sinn und Docs-Bedarf
+- Workflow-Reihenfolge: Aenderung → Kritiker → Fixes → Docs → Commit → Push
+- Pre-Commit-Check Prompt als Referenzdatei dokumentiert
+
 ## 2026-03-27 — v1.1.0
 - Notification-Hook: Desktop-Benachrichtigung wenn Claude auf Eingabe wartet (notify-send/osascript)
 - Web-Kritiker Skill: `/kritiker-web` fuer OWASP Top 10, XSS, Auth, CSP, Performance, a11y

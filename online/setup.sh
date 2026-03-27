@@ -26,9 +26,11 @@ mkdir -p "$HOOKS_DIR"
 
 # 2. Hooks kopieren
 cp "$SCRIPT_DIR/hooks/schutz.sh" "$HOOKS_DIR/schutz.sh"
+cp "$SCRIPT_DIR/hooks/pre-commit-check.sh" "$HOOKS_DIR/pre-commit-check.sh"
 cp "$REPO_DIR/shared/hooks/notification.sh" "$HOOKS_DIR/notification.sh"
-chmod +x "$HOOKS_DIR/schutz.sh" "$HOOKS_DIR/notification.sh"
+chmod +x "$HOOKS_DIR/schutz.sh" "$HOOKS_DIR/pre-commit-check.sh" "$HOOKS_DIR/notification.sh"
 echo "[OK] Schutz-Hook installiert: $HOOKS_DIR/schutz.sh"
+echo "[OK] Pre-Commit-Check installiert: $HOOKS_DIR/pre-commit-check.sh"
 echo "[OK] Notification-Hook installiert: $HOOKS_DIR/notification.sh"
 
 # 3. Web-Kritiker Skill installieren

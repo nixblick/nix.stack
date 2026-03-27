@@ -17,8 +17,18 @@
       "hooks": [
         {
           "type": "command",
-          "command": "/home/anhi/.claude/hooks/schutz.sh",
+          "command": "~/.claude/hooks/schutz.sh",
           "timeout": 5
+        },
+        {
+          "type": "command",
+          "command": "~/.claude/hooks/pre-commit-check.sh",
+          "timeout": 10
+        },
+        {
+          "type": "agent",
+          "prompt": "Siehe shared/hooks/pre-commit-kritiker-prompt.md fuer den vollstaendigen Prompt",
+          "timeout": 120
         }
       ]
     }
