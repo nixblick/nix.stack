@@ -1,0 +1,38 @@
+# ansible-lint Konfiguration (nach .ansible-lint im Projektroot kopieren)
+# Dokumentation: https://ansible.readthedocs.io/projects/lint/configuring/
+
+# Regeln die strikt eingehalten werden
+enable_list:
+  - fqcn
+  - no-log-password
+  - no-same-owner
+
+# Regeln die bewusst ignoriert werden
+skip_list:
+  # Rollen-Namen enthalten Punkte (system.daemon.sshd) — kein Standard-Pattern
+  - role-name
+  # galaxy Metadaten sind nicht relevant
+  - galaxy
+  # meta/main.yml nicht ueberall vorhanden
+  - meta-incorrect
+  - meta-no-info
+  - meta-no-tags
+  # Keine Collections
+  - sanity
+
+# Dateien und Verzeichnisse die nicht geprueft werden
+exclude_paths:
+  - .claude/
+  - .git/
+  - inventories/
+
+# Warnungen nicht als Fehler behandeln
+strict: false
+
+# Offline-Modus (kein Download von Galaxy-Rollen)
+offline: true
+
+# YAML-Lint Einstellungen
+yaml:
+  max-spaces-after: 1
+  max-spaces-before: 0

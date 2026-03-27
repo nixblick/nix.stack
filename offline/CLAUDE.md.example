@@ -1,0 +1,42 @@
+# Ansible-Projekt: Regeln fuer Claude
+
+## Grundprinzip
+Sicherheit, Modularitaet und Verstaendlichkeit — keep it simple and stupid, aber sicher.
+
+## Allgemeine Regeln
+- Nichts hardcoden: Domains, IPs, Pfade, Ports, Usernamen — alles in Variablen.
+- Variablen immer mit Rollenname als Prefix (z.B. `linux_firewall_ports`).
+- Defaults in `defaults/main.yml` mit deutschen Kommentaren dokumentieren.
+- Sensible Daten (Passwoerter, Keys, Tokens) gehoeren in Ansible Vault, nie im Klartext.
+- Ansible >= 2.14 voraussetzen.
+
+## Task-Regeln
+- Jeder Task braucht einen lint konformen englischen `name:`.
+- `become: true` nur pro Task setzen, nicht global — Principle of Least Privilege.
+- Jeder Task MUSS idempotent sein: kein `changed` bei erneutem Run.
+- Tags: Rollenname als Tag (z.B. `tags: [linux_firewall]`).
+- Kein `command`/`shell` wenn ein Ansible-Modul existiert.
+- `no_log: true` bei Tasks die Secrets verarbeiten.
+
+## Rollenstruktur
+- Handler gehoeren in `handlers/main.yml`, nie inline.
+- Variablen-Doku direkt als Kommentare in `defaults/main.yml`, kein extra README.
+- ansible-lint strikt einhalten, alle Warnungen fixen.
+
+## Dateistruktur und Token-Optimierung
+- Keine langen, monolithischen Task-Dateien — thematisch aufteilen.
+- Task-Dateien durchnummerieren (z.B. `tasks/01_install.yml`, `tasks/02_configure.yml`).
+- Hauptdatei `tasks/main.yml` inkludiert die Teildateien per `ansible.builtin.include_tasks`.
+- Ziel: Kleine, ueberschaubare Dateien — schnell auffindbar, token-sparend bearbeitbar.
+
+## Dokumentation und Changelog
+- Jede Rolle MUSS ein `CHANGELOG.md` im Rollenverzeichnis haben.
+- Format: Datum, Kurzbeschreibung der Aenderung, betroffene Dateien.
+- Bei jeder Aenderung an einer Rolle wird das Changelog aktualisiert.
+
+## Arbeitsablauf: Kritiker-Modus
+Nach jeder Aenderung automatisch Kritiker-Review:
+1. Code schreiben/verbessern.
+2. Pruefung auf: Sicherheitsluecken, Hardcodierte Werte, Fehlende Idempotenz, ansible-lint Verstoesse, Fehlende become/no_log.
+3. Kritiker-Feedback umsetzen.
+4. Ergebnis mit Zusammenfassung praesentieren.

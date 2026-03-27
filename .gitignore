@@ -1,0 +1,13 @@
+# Backup-Archive
+*.tar.gz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code Projekt-Dateien (gehoeren nicht ins Repo)
+.claude/

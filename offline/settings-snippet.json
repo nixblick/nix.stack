@@ -1,0 +1,29 @@
+{
+  "_comment": "Diesen Block in .claude/settings.local.json des Offline-Projekts einfuegen",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/schutz.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/ansible-lint.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

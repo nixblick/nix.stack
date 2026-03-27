@@ -1,0 +1,15 @@
+{
+  "_comment": "Diesen Block in ~/.claude/settings.json unter 'hooks' einfuegen",
+  "PreToolUse": [
+    {
+      "matcher": "Bash",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "/home/anhi/.claude/hooks/schutz.sh",
+          "timeout": 5
+        }
+      ]
+    }
+  ]
+}
