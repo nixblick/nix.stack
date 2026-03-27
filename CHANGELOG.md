@@ -1,5 +1,12 @@
 # Changelog — nix.stack
 
+## 2026-03-27 — v1.3.0
+- `/harness-review` Skill: Meta-Review des Harness — prueft ob Skills, Hooks, Rules noch sinnvoll sind
+- `/arbeitsweise` Skill: Analysiert Commits, Changelogs, Arbeitsmuster und gibt Feedback zur Claude Code Nutzung
+- `/repo-health` Skill: Health-Check ueber alle nixblick-Repos (Dependencies, TODOs, Sicherheit, Shared-Ressourcen)
+- `/site-monitor` Skill: Live-Site-Pruefung (Erreichbarkeit, SSL, Security-Header, Performance, Console-Errors)
+- `/neues-projekt` Skill: Bootstrapper fuer neue Projekte mit Standard-Struktur und Shared-Ressourcen
+
 ## 2026-03-27 — v1.2.0
 - Pre-Commit Workflow: Zweistufige Pruefung vor jedem git commit
   - Command-Hook: Blockiert Commit wenn CHANGELOG.md fehlt oder Secrets im Diff

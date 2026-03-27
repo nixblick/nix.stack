@@ -29,11 +29,23 @@ cd ~/GitHub/nixblick/nix.stack
 
 Installiert:
 - **Schutz-Hook** — blockiert `rm -rf` auf GitHub/, .claude/, .ssh/, .env-Leaks, force-push, reset --hard
+- **Pre-Commit Workflow** — CHANGELOG-Check + Kritiker-Review vor jedem Commit
 - **Notification-Hook** — Desktop-Benachrichtigung wenn Claude auf Eingabe wartet
-- **Web-Kritiker Skill** (`/kritiker-web`) — OWASP Top 10, XSS, Auth, CSP, Performance, a11y
+- **6 Skills** (siehe unten)
 - **Rules** — Session-Kontext (wer, was, wie)
 - **tmux.conf** — optional nach ~/.tmux.conf symlinken
 - Arbeitet zusammen mit gstack (28+ Skills bleiben aktiv)
+
+#### nix.stack Skills
+
+| Skill | Aufruf | Zweck |
+|-------|--------|-------|
+| Web-Kritiker | `/kritiker-web` | OWASP Top 10, XSS, Auth, CSP, Performance, a11y |
+| Harness-Review | `/harness-review` | Meta-Review: sind Skills, Hooks, Rules noch sinnvoll? |
+| Arbeitsweise | `/arbeitsweise` | Commit-Analyse, Arbeitsmuster, Claude Code Feedback |
+| Repo-Health | `/repo-health` | Health-Check aller Repos (Deps, TODOs, Sicherheit) |
+| Site-Monitor | `/site-monitor` | Live-Sites pruefen (SSL, Header, Performance) |
+| Neues Projekt | `/neues-projekt` | Bootstrapper mit Standard-Struktur + Shared-Ressourcen |
 
 ### Offline (Ansible-Controller)
 
@@ -57,6 +69,11 @@ nix.stack/
 │   ├── hooks/schutz.sh         # PreToolUse: Destruktions-Schutz
 │   ├── hooks/pre-commit-check.sh  # PreToolUse: CHANGELOG + Secrets Check
 │   ├── skills/kritiker-web/    # /kritiker-web — Web-Security + Quality Review
+│   ├── skills/harness-review/ # /harness-review — Meta-Review des Harness
+│   ├── skills/arbeitsweise/   # /arbeitsweise — Commit-Analyse + Feedback
+│   ├── skills/repo-health/    # /repo-health — Health-Check aller Repos
+│   ├── skills/site-monitor/   # /site-monitor — Live-Site Monitoring
+│   ├── skills/neues-projekt/  # /neues-projekt — Projekt-Bootstrapper
 │   ├── rules/arbeitsumgebung.md
 │   ├── settings-snippet.json   # Hook-Registrierung (Referenz)
 │   └── setup.sh                # Ein-Klick-Installation

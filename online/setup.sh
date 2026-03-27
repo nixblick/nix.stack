@@ -33,10 +33,13 @@ echo "[OK] Schutz-Hook installiert: $HOOKS_DIR/schutz.sh"
 echo "[OK] Pre-Commit-Check installiert: $HOOKS_DIR/pre-commit-check.sh"
 echo "[OK] Notification-Hook installiert: $HOOKS_DIR/notification.sh"
 
-# 3. Web-Kritiker Skill installieren
-mkdir -p "$SKILLS_DIR/kritiker-web"
-cp "$SCRIPT_DIR/skills/kritiker-web/SKILL.md" "$SKILLS_DIR/kritiker-web/SKILL.md"
-echo "[OK] Skill /kritiker-web installiert: $SKILLS_DIR/kritiker-web/"
+# 3. Skills installieren
+for skill_dir in "$SCRIPT_DIR"/skills/*/; do
+  skill_name=$(basename "$skill_dir")
+  mkdir -p "$SKILLS_DIR/$skill_name"
+  cp "$skill_dir/SKILL.md" "$SKILLS_DIR/$skill_name/SKILL.md"
+  echo "[OK] Skill /$skill_name installiert"
+done
 
 # 4. Hook in settings.json registrieren (falls noch nicht vorhanden)
 SETTINGS="$CLAUDE_DIR/settings.json"
