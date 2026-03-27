@@ -11,6 +11,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Zielverzeichnis abfragen
 if [[ -n "${1:-}" ]]; then
@@ -110,7 +111,30 @@ SETTINGS_EOF
   echo "[OK] settings.local.json erstellt mit Hook-Konfiguration"
 fi
 
-# 8. Test
+# 8. tmux.conf (optional)
+TMUX_SRC="$REPO_DIR/shared/tmux.conf"
+TMUX_DST="$HOME/.tmux.conf"
+if [[ -f "$TMUX_SRC" ]]; then
+  if [[ -L "$TMUX_DST" && "$(readlink -f "$TMUX_DST")" == "$(readlink -f "$TMUX_SRC")" ]]; then
+    echo "[OK] tmux.conf bereits verlinkt"
+  elif [[ -f "$TMUX_DST" ]]; then
+    echo ""
+    echo "[FRAGE] ~/.tmux.conf existiert bereits."
+    read -rp "         Ueberschreiben mit Symlink auf nix.stack? [j/N] " answer
+    if [[ "$answer" =~ ^[jJyY]$ ]]; then
+      mv "$TMUX_DST" "${TMUX_DST}.backup"
+      ln -sf "$TMUX_SRC" "$TMUX_DST"
+      echo "[OK] tmux.conf verlinkt (Backup: ${TMUX_DST}.backup)"
+    else
+      echo "[OK] tmux.conf nicht veraendert"
+    fi
+  else
+    ln -sf "$TMUX_SRC" "$TMUX_DST"
+    echo "[OK] tmux.conf verlinkt: $TMUX_DST -> $TMUX_SRC"
+  fi
+fi
+
+# 9. Test
 echo ""
 echo "=== Schutz-Hook Test ==="
 echo '{"tool_input":{"command":"rm -rf roles/test"}}' | "$CLAUDE_DIR/hooks/schutz.sh" 2>&1 && echo "[FEHLER] Hook hat nicht blockiert!" || echo "[OK] Destruktiver Befehl blockiert (Exit $?)"

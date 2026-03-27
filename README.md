@@ -29,7 +29,10 @@ cd ~/GitHub/nixblick/nix.stack
 
 Installiert:
 - **Schutz-Hook** — blockiert `rm -rf` auf GitHub/, .claude/, .ssh/, .env-Leaks, force-push, reset --hard
+- **Notification-Hook** — Desktop-Benachrichtigung wenn Claude auf Eingabe wartet
+- **Web-Kritiker Skill** (`/kritiker-web`) — OWASP Top 10, XSS, Auth, CSP, Performance, a11y
 - **Rules** — Session-Kontext (wer, was, wie)
+- **tmux.conf** — optional nach ~/.tmux.conf symlinken
 - Arbeitet zusammen mit gstack (28+ Skills bleiben aktiv)
 
 ### Offline (Ansible-Controller)
@@ -52,6 +55,7 @@ Installiert:
 nix.stack/
 ├── online/                     # Fuer Maschinen mit Internet + Git
 │   ├── hooks/schutz.sh         # PreToolUse: Destruktions-Schutz
+│   ├── skills/kritiker-web/    # /kritiker-web — Web-Security + Quality Review
 │   ├── rules/arbeitsumgebung.md
 │   ├── settings-snippet.json   # Hook-Registrierung (Referenz)
 │   └── setup.sh                # Ein-Klick-Installation
@@ -68,7 +72,9 @@ nix.stack/
 │   ├── settings-snippet.json   # Hook-Registrierung (Referenz)
 │   └── setup.sh                # Ein-Klick-Installation
 ├── shared/                     # Gemeinsame Bausteine
-│   └── hooks/schutz.sh         # Konfigurierbarer Basis-Schutz-Hook
+│   ├── hooks/schutz.sh         # Konfigurierbarer Basis-Schutz-Hook
+│   ├── hooks/notification.sh   # Desktop-Benachrichtigung (Linux + macOS)
+│   └── tmux.conf               # tmux-Konfiguration (optional)
 ├── HARNESS.md                  # Theorie + Dokumentation des Harness-Ansatzes
 ├── CHANGELOG.md
 └── README.md
