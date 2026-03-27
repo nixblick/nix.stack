@@ -1,5 +1,14 @@
 # Changelog — nix.stack
 
+## 2026-03-27 — v1.4.0
+- Drei KI-Assistenten als CronJob-Rollen + Skills definiert:
+  - `/dave` — DevOps-Assistent: Workflow-Check, Site-Monitor, Repo-Health, Smoke Tests, Tagesbericht
+  - `/einstein` — Persoenlicher Assistent: Morgen-Briefing, Mittags-Check, Pausen, Feierabend, Bett-Erinnerung
+  - `/bodo` — Money Coach: ROI-Analyse, Monetarisierungs-Radar, Deep-Dive pro Projekt
+- Rollenbeschreibungen in `online/assistants/{dave,einstein,bodo}.md`
+- Skills in `~/.claude/skills/{dave,einstein,bodo}/SKILL.md`
+- Jeder Assistent per `/name einrichten` aktivierbar (CronJobs) oder sofort aufrufbar (`/dave check`, `/bodo roi` etc.)
+
 ## 2026-03-27 — v1.3.0
 - `/harness-review` Skill: Meta-Review des Harness — prueft ob Skills, Hooks, Rules noch sinnvoll sind
 - `/arbeitsweise` Skill: Analysiert Commits, Changelogs, Arbeitsmuster und gibt Feedback zur Claude Code Nutzung
