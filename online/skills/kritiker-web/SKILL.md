@@ -69,11 +69,16 @@ Falls kein Argument angegeben: pruefe alle kuerzlich geaenderten Dateien (`git d
 - API-Responses: Konsistentes Format? Sinnvolle HTTP-Status-Codes?
 - Responsive Design: Funktioniert auf Mobile?
 
+## Wissensbasis
+
+Lies zuerst `~/GitHub/nixblick/nix.stack/shared/security_knowledge/vulnerabilities.yml` — der Katalog enthaelt 19 Schwachstellentypen mit konkreten check_hints, severity und OWASP/CWE-Referenzen. Nutze diese als Checkliste zusaetzlich zu den Pruefbereichen oben.
+
 ## Vorgehen
 
-1. Lies alle relevanten Dateien (HTML, CSS, JS/TS, Python, PHP, Config)
-2. Pruefe jeden Bereich systematisch
-3. Falls ein Webserver laeuft: empfehle `/browse` fuer visuellen Check
+1. Lade die Schwachstellen-Wissensbasis (siehe oben)
+2. Lies alle relevanten Dateien (HTML, CSS, JS/TS, Python, PHP, Config)
+3. Pruefe jeden Bereich systematisch — nutze die check_hints aus der Wissensbasis
+4. Falls ein Webserver laeuft: empfehle `/browse` fuer visuellen Check
 
 ## Ausgabeformat
 

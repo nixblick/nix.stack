@@ -1,5 +1,12 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v1.5.0
+- Schwachstellen-Wissensbasis aus infra.security migriert → `shared/security_knowledge/vulnerabilities.yml`
+  - 19 Schwachstellentypen mit check_hints, severity, OWASP/CWE-Referenzen
+  - Kategorien: Injection, XSS, CSRF, Auth, Sessions, HTTP-Header, Uploads, Credentials, Infra
+- `/kritiker-web` Skill nutzt jetzt die Wissensbasis als zusaetzliche Checkliste
+- infra.security Repo kann nach dieser Migration aufgeloest werden (Credential-Rotation war einziger weiterer Inhalt — wird in job-bezogenen Repos weiterentwickelt)
+
 ## 2026-03-27 — v1.4.0
 - Drei KI-Assistenten als CronJob-Rollen + Skills definiert:
   - `/dave` — DevOps-Assistent: Workflow-Check, Site-Monitor, Repo-Health, Smoke Tests, Tagesbericht

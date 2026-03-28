@@ -1,0 +1,339 @@
+# Schwachstellen-Wissensdatenbank
+#
+# Allgemeines IT-Security-Expertenwissen — nicht an einzelne Repos gebunden.
+# Dient als Prüfkatalog: Claude Code liest diese Datei und kann damit
+# beliebige Projekte auf die hier beschriebenen Schwachstellen untersuchen.
+#
+# Aufbau pro Eintrag:
+#   id:            Eindeutiger Bezeichner (snake_case)
+#   name:          Menschenlesbarer Name
+#   description:   Was ist das Problem? (kurz und verständlich)
+#   applies_to:    Technologie-Tags aus dem erlaubten Vokabular (siehe unten)
+#   check_hints:   Worauf soll beim Prüfen geachtet werden?
+#   severity:      critical | high | medium | low | info
+#   references:    Links zu weiterführenden Infos
+#
+# Erlaubte applies_to Tags:
+#   Plattform:    web, api, cli, scripts
+#   Framework:    flask, django, express, ansible
+#   Schicht:      templates, javascript, datenbank
+#   Infrastruktur: nginx, docker, linux
+#   Allgemein:    allgemein (= trifft auf fast alles zu)
+#
+# Herkunft: Migriert aus infra.security/security_knowledge/ (2026-03-28)
+#
+# Beispiel-Aufrufe an Claude Code:
+#   "Lies shared/security_knowledge/vulnerabilities.yml und prüfe Repo X auf alles."
+#   "Prüfe Repo X auf path_traversal und csrf."
+#   "Welche Schwachstellen aus der Wissensdatenbank sind für eine Flask-App relevant?"
+#
+# Wird genutzt von: /kritiker-web, /cso, /repo-health
+
+vulnerabilities:
+
+  # ---------------------------------------------------------------------------
+  # Injection & Input-Validierung
+  # ---------------------------------------------------------------------------
+
+  - id: path_traversal
+    name: Path Traversal
+    description: >
+      Angreifer nutzt ../ oder ähnliche Muster, um auf Dateien
+      außerhalb des vorgesehenen Verzeichnisses zuzugreifen.
+      Betrifft jede Stelle, an der User-Input als Dateipfad verwendet wird.
+    applies_to: [web, api, cli, scripts]
+    check_hints:
+      - "Suche nach open(), read_file(), send_file(), send_from_directory() mit User-Input"
+      - "Wird der Pfad gegen eine Whitelist oder ein Basisverzeichnis validiert?"
+      - "Wird pathlib.relative_to() oder os.path.realpath() zur Absicherung genutzt?"
+      - "Achte auf ../ und absolute Pfade in Query-Parametern, Form-Daten, API-Payloads"
+    severity: high
+    references:
+      - https://owasp.org/www-community/attacks/Path_Traversal
+      - https://cwe.mitre.org/data/definitions/22.html
+
+  - id: sql_injection
+    name: SQL Injection
+    description: >
+      Angreifer schleust SQL-Code über User-Input ein, um Daten zu lesen,
+      zu ändern oder zu löschen. Betrifft jede direkte SQL-Abfrage mit
+      String-Konkatenation oder f-Strings.
+    applies_to: [web, api, datenbank]
+    check_hints:
+      - "Suche nach String-Konkatenation oder f-Strings in SQL-Queries"
+      - "Werden überall parametrisierte Queries / Prepared Statements genutzt?"
+      - "ORM-Nutzung prüfen: raw SQL oder .execute() mit User-Input?"
+      - "Stored Procedures: Werden Parameter korrekt übergeben?"
+    severity: critical
+    references:
+      - https://owasp.org/www-community/attacks/SQL_Injection
+      - https://cwe.mitre.org/data/definitions/89.html
+
+  - id: command_injection
+    name: Command Injection
+    description: >
+      Angreifer führt Betriebssystem-Befehle aus, wenn User-Input
+      ungefiltert an subprocess, os.system() o.ä. übergeben wird.
+    applies_to: [web, api, cli, ansible]
+    check_hints:
+      - "Suche nach os.system(), subprocess.call/run/Popen mit shell=True"
+      - "Wird User-Input in Shell-Befehle eingebaut?"
+      - "Ansible: Werden command/shell-Module mit User-Variablen genutzt?"
+      - "Besser: subprocess mit Liste statt String, shlex.quote() nutzen"
+    severity: critical
+    references:
+      - https://owasp.org/www-community/attacks/Command_Injection
+      - https://cwe.mitre.org/data/definitions/78.html
+
+  # ---------------------------------------------------------------------------
+  # Cross-Site Angriffe
+  # ---------------------------------------------------------------------------
+
+  - id: csrf
+    name: Cross-Site Request Forgery (CSRF)
+    description: >
+      Angreifer bringt authentifizierten Benutzer dazu, ungewollt Aktionen
+      auszuführen (z.B. Einstellungen ändern, Daten löschen).
+    applies_to: [web, flask, django]
+    check_hints:
+      - "Ist ein CSRF-Schutz global aktiviert? (Flask-WTF CSRFProtect, Django Middleware)"
+      - "Haben alle POST/PUT/DELETE Formulare ein CSRF-Token?"
+      - "AJAX-Requests: Wird ein CSRF-Token im Header (X-CSRFToken) mitgesendet?"
+      - "Ist ein Token-Timeout konfiguriert? (Empfehlung: 1h)"
+      - "Gibt es Endpunkte mit @csrf.exempt? Sind die begründet?"
+    severity: high
+    references:
+      - https://owasp.org/www-community/attacks/csrf
+      - https://cwe.mitre.org/data/definitions/352.html
+
+  - id: xss
+    name: Cross-Site Scripting (XSS)
+    description: >
+      Angreifer schleust JavaScript ein, das im Browser anderer Benutzer
+      ausgeführt wird. Drei Varianten: Reflected (über URL-Parameter),
+      Stored (über gespeicherte Daten wie Kommentare) und DOM-basiert
+      (JavaScript manipuliert das DOM direkt mit unsicheren Methoden).
+    applies_to: [web, templates, javascript]
+    check_hints:
+      # Server-seitig (Reflected & Stored)
+      - "Ist Auto-Escaping aktiv? (Jinja2, Django Templates)"
+      - "Suche nach |safe, {% autoescape false %}, markupsafe.Markup() mit User-Daten"
+      - "Werden User-Daten in HTML-Attributen, JavaScript-Blöcken oder URLs ausgegeben?"
+      - "Gibt es Stellen, wo User-Input ohne Escaping in die Seite gelangt?"
+      # Client-seitig (DOM-basiert)
+      - "Suche nach innerHTML, outerHTML, document.write() mit variablen Daten"
+      - "Werden Server-Daten (z.B. aus JSON-Responses) direkt ins DOM geschrieben?"
+      - "Lösung: textContent statt innerHTML, oder DOMPurify einsetzen"
+      - "jQuery: Suche nach .html() mit User-Daten, besser .text() nutzen"
+    severity: high
+    references:
+      - https://owasp.org/www-community/attacks/xss/
+      - https://owasp.org/www-community/attacks/DOM_Based_XSS
+      - https://cwe.mitre.org/data/definitions/79.html
+
+  # ---------------------------------------------------------------------------
+  # Authentifizierung & Sessions
+  # ---------------------------------------------------------------------------
+
+  - id: session_security
+    name: Unsichere Session-Cookies
+    description: >
+      Ohne Secure/HttpOnly/SameSite-Flags können Session-Cookies
+      abgefangen (MitM) oder per JavaScript gestohlen (XSS) werden.
+    applies_to: [web, flask, django]
+    check_hints:
+      - "Sind Session-Cookie-Flags gesetzt? Secure=True, HttpOnly=True, SameSite='Lax' oder 'Strict'"
+      - "Werden eigene Cookies (set_cookie) ebenfalls mit diesen Flags versehen?"
+      - "Ist die Session-Dauer begrenzt? (PERMANENT_SESSION_LIFETIME)"
+    severity: high
+    references:
+      - https://owasp.org/www-community/controls/SecureCookieAttribute
+      - https://cwe.mitre.org/data/definitions/614.html
+
+  - id: rate_limiting
+    name: Fehlende Rate-Limits
+    description: >
+      Ohne Rate-Limiting können Login-Formulare und APIs per
+      Brute-Force angegriffen werden.
+    applies_to: [web, api]
+    check_hints:
+      - "Haben Login-, Registrierungs- und Passwort-Reset-Endpunkte Rate-Limits?"
+      - "Ist ein Rate-Limiter (Flask-Limiter, django-ratelimit, nginx limit_req) aktiv?"
+      - "API-Endpunkte: Gibt es globale oder pro-User Limits?"
+      - "Werden Rate-Limit-Header (X-RateLimit-*) zurückgegeben?"
+    severity: medium
+    references:
+      - https://owasp.org/www-community/controls/Blocking_Brute_Force_Attacks
+      - https://cwe.mitre.org/data/definitions/307.html
+
+  # ---------------------------------------------------------------------------
+  # HTTP-Sicherheit
+  # ---------------------------------------------------------------------------
+
+  - id: security_headers
+    name: Fehlende Security-Header
+    description: >
+      HTTP-Response-Header schützen gegen Clickjacking, MIME-Sniffing
+      und Information Leakage. Sollten bei jeder Web-Anwendung gesetzt sein.
+    applies_to: [web]
+    check_hints:
+      - "X-Frame-Options: SAMEORIGIN oder DENY — gegen Clickjacking"
+      - "X-Content-Type-Options: nosniff — gegen MIME-Sniffing"
+      - "Referrer-Policy: strict-origin-when-cross-origin oder no-referrer"
+      - "Werden die Header in einem after_request Hook oder per Middleware gesetzt?"
+      - "Alternativ: per Reverse Proxy (nginx add_header) setzen"
+    severity: medium
+    references:
+      - https://owasp.org/www-project-secure-headers/
+
+  - id: missing_csp
+    name: Fehlender Content-Security-Policy Header
+    description: >
+      Ohne CSP-Header können inline-Scripts und externe Skripte
+      uneingeschränkt ausgeführt werden, was XSS-Angriffe erleichtert.
+      Erfordert oft Umbau von inline-Event-Handlern (onclick etc.).
+    applies_to: [web]
+    check_hints:
+      - "Ist ein Content-Security-Policy Header gesetzt?"
+      - "Gibt es inline-onclick/onchange-Handler, die einen strengen CSP verhindern?"
+      - "Werden externe Scripts/Styles von CDNs geladen? Diese müssen in die CSP"
+      - "Empfehlung: mit CSP im Report-Only-Modus starten, um Probleme zu finden"
+    severity: medium
+    references:
+      - https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+      - https://cwe.mitre.org/data/definitions/1021.html
+
+  # ---------------------------------------------------------------------------
+  # Datei-Uploads & Ressourcen
+  # ---------------------------------------------------------------------------
+
+  - id: unrestricted_upload
+    name: Unkontrollierter Datei-Upload
+    description: >
+      Ohne Validierung von Dateigrösse, Dateityp und Dateiname können
+      Angreifer Schadcode hochladen oder den Server per DoS überlasten.
+    applies_to: [web, api]
+    check_hints:
+      - "Ist ein Grössenlimit pro Upload konfiguriert? (MAX_CONTENT_LENGTH, client_max_body_size)"
+      - "Wird der Dateityp serverseitig validiert? (nicht nur Extension, auch Magic Bytes)"
+      - "Wird der Dateiname sanitisiert? (werkzeug.utils.secure_filename oder Äquivalent)"
+      - "Werden Uploads ausserhalb des Web-Root gespeichert?"
+    severity: medium
+    references:
+      - https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+      - https://cwe.mitre.org/data/definitions/434.html
+
+  # ---------------------------------------------------------------------------
+  # Passwörter & Credentials
+  # ---------------------------------------------------------------------------
+
+  - id: insecure_password_storage
+    name: Unsichere Passwort-Speicherung
+    description: >
+      Passwörter werden im Klartext oder mit ungeeigneten Algorithmen
+      gespeichert. Zwei Stufen: (1) Klartext — gar nicht gehasht,
+      (2) Schwacher Hash — md5/sha1/sha256 ohne Salt, per Rainbow-Table
+      knackbar. Nur adaptive Algorithmen (bcrypt, argon2, scrypt) sind sicher.
+    applies_to: [web, api, datenbank, allgemein]
+    check_hints:
+      # Stufe 1: Klartext?
+      - "Werden Passwörter vor dem Speichern überhaupt gehasht?"
+      - "Suche nach password= oder passwd= in INSERT/UPDATE Statements ohne Hash-Aufruf"
+      - "Werden Passwörter in Logfiles geschrieben? (logging, print, debug-Output)"
+      - "Werden Passwörter in API-Responses oder Error-Messages zurückgegeben?"
+      - "Passwort-Vergleich: wird check_password_hash() / bcrypt.checkpw() genutzt statt == ?"
+      # Stufe 2: Schwacher Hash?
+      - "Suche nach md5(), sha1(), sha256(), hashlib.* im Kontext von Passwörtern"
+      - "Wird ein Salt verwendet? (kein fester Salt, sondern pro User)"
+      - "Welcher Algorithmus? Akzeptabel: bcrypt, argon2id, scrypt. Nicht akzeptabel: md5, sha*, pbkdf2 mit wenig Iterationen"
+    severity: critical
+    references:
+      - https://owasp.org/www-community/vulnerabilities/Password_Plaintext_Storage
+      - https://cwe.mitre.org/data/definitions/256.html
+      - https://cwe.mitre.org/data/definitions/916.html
+      - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+
+  - id: hardcoded_credentials
+    name: Hardcodierte Zugangsdaten
+    description: >
+      Passwörter, API-Keys, Tokens, Connection-Strings oder SSH-Keys
+      direkt im Quellcode. Jeder mit Zugriff auf den Code hat Zugriff
+      auf die Systeme. Müssen in Umgebungsvariablen, .env, Vault oder
+      einem Secret Manager liegen.
+    applies_to: [allgemein, web, api, ansible, scripts]
+    check_hints:
+      - "Grep nach: password=, passwd=, secret=, api_key=, token=, auth= mit festen String-Werten"
+      - "Grep nach: Connection-Strings mit eingebetteten Passwörtern (Server=...;Password=...)"
+      - "Werden Secrets aus os.environ, .env oder einem Vault geladen?"
+      - "Ist .env in .gitignore? Sind *.pem, *.key in .gitignore?"
+      - "Git-Historie prüfen: Wurden Secrets jemals committed? (git log -p | grep -i password)"
+      - "Ansible: Liegen Zugangsdaten in group_vars/host_vars statt in Vault?"
+      - "Docker: Stehen Secrets in Dockerfile oder docker-compose.yml statt in Secrets/Env?"
+    severity: critical
+    references:
+      - https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password
+      - https://cwe.mitre.org/data/definitions/798.html
+
+  - id: insecure_credential_transport
+    name: Zugangsdaten über unsicheren Kanal übertragen
+    description: >
+      Passwörter oder Tokens werden über HTTP (nicht HTTPS), unverschlüsselte
+      E-Mails oder unsichere Protokolle übertragen und können abgefangen werden.
+    applies_to: [web, api, allgemein]
+    check_hints:
+      - "Login-Formulare: Ist die Action-URL https://? Wird HSTS erzwungen?"
+      - "API-Aufrufe mit Credentials: Werden sie über HTTPS gesendet?"
+      - "Werden Passwörter per E-Mail verschickt statt über sichere Reset-Links?"
+      - "Interne Dienste: Kommunizieren sie unverschlüsselt im Netzwerk? (Redis, DB ohne TLS)"
+    severity: high
+    references:
+      - https://cwe.mitre.org/data/definitions/319.html
+
+  - id: missing_password_policy
+    name: Fehlende Passwort-Richtlinie
+    description: >
+      Ohne Mindestanforderungen an Passwörter können Benutzer triviale
+      Passwörter wie "123456" oder "password" verwenden.
+    applies_to: [web, api]
+    check_hints:
+      - "Gibt es eine Mindestlänge? (Empfehlung: mindestens 8, besser 12 Zeichen)"
+      - "Wird gegen bekannte schwache Passwörter geprüft? (Have I Been Pwned API, Wortliste)"
+      - "Wird Passwort-Komplexität serverseitig validiert, nicht nur im Frontend?"
+      - "Gibt es eine maximale Länge? (Nicht unter 64 Zeichen begrenzen — bcrypt hat 72-Byte-Limit)"
+    severity: medium
+    references:
+      - https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
+      - https://cwe.mitre.org/data/definitions/521.html
+
+  # ---------------------------------------------------------------------------
+  # Infrastruktur & Konfiguration
+  # ---------------------------------------------------------------------------
+
+  - id: debug_mode
+    name: Debug-Modus in Produktion
+    description: >
+      Aktiver Debug-Modus (Flask DEBUG=True, Django DEBUG=True) zeigt
+      Stack-Traces, Quellcode und Umgebungsvariablen bei Fehlern an.
+    applies_to: [web, flask, django]
+    check_hints:
+      - "Ist DEBUG=False in der Produktionskonfiguration?"
+      - "Wird app.run(debug=True) nur in __name__ == '__main__' genutzt?"
+      - "Gibt es eine Trennung von Dev/Prod-Konfiguration?"
+    severity: critical
+    references:
+      - https://cwe.mitre.org/data/definitions/215.html
+
+  - id: proxy_misconfiguration
+    name: Reverse-Proxy-Fehlkonfiguration
+    description: >
+      Ohne korrekte ProxyFix/Trusted-Proxy-Konfiguration können
+      X-Forwarded-For/Proto Header gefälscht werden, was IP-basierte
+      Zugriffskontrolle und HTTPS-Erkennung aushebelt.
+    applies_to: [web, flask, django, nginx]
+    check_hints:
+      - "Ist ProxyFix (Flask) oder SECURE_PROXY_SSL_HEADER (Django) korrekt konfiguriert?"
+      - "Wird nur dem eigenen Reverse Proxy vertraut? (x_for=1, x_proto=1)"
+      - "nginx: Werden X-Forwarded-* Header korrekt gesetzt und alte Werte überschrieben?"
+    severity: medium
+    references:
+      - https://flask.palletsprojects.com/en/latest/deploying/proxy_fix/
