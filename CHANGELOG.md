@@ -1,5 +1,12 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v2.1.0
+- **Projekt-Kontext** als Symlink verfuegbar: `~/.claude/context/` → `nix.stack/context/`
+  - OVERVIEW.md (zentrale Projekt-Map), SCHEMA.md, repos/*.yml (13 Projekte)
+  - Alle Assistenten und Skills koennen Projektdaten ueber `~/.claude/context/` lesen
+  - setup.sh erstellt den Symlink automatisch
+- `context/` Verzeichnis in Git aufgenommen (war bisher unversioniert)
+
 ## 2026-03-28 — v2.0.0
 - **Architektur-Umbau:** Assistenten (Dave, Einstein, Bodo) von `online/assistants/` nach `online/skills/*/rolle.md` migriert
   - SKILL.md Dateien jetzt im Repo statt nur als Kopien in `~/.claude/skills/`

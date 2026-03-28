@@ -1,0 +1,33 @@
+name: bvkfrankfurt.de
+url: https://bvkfrankfurt.de
+repo: nixblick/bvkfrankfurt.de
+type: web-app
+stack: [HTML5, CSS3, Vanilla JS, Python 3, PHP 8, MySQL, Chart.js v4]
+hosting: Goneo (Deutschland, DSGVO)
+deploy: GitHub Actions → SFTP on push to main
+status: live
+
+purpose: |
+  Website für Schachverein "Brett vorm Kopp Frankfurt e.V.".
+  Auto-Updates: DWZ täglich, Liga sonntags, Lichess montags.
+  Mannschaftstabellen, Lichess-Teamstats, Monatsblitz-Admin.
+
+api: null
+
+depends_on: [shared]
+shared_integration:
+  analytics: true
+  datenschutz: true
+  impressum: true
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Python-Skripte für Daten-Scraping (DWZ, Liga, Lichess).
+  Dark Mode. Responsive. Cron-Jobs für Auto-Updates via GitHub Actions.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

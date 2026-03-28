@@ -1,0 +1,35 @@
+name: clawd
+url: null
+repo: nixblick/clawd
+type: bot
+stack: [Python, Bash, Telegram API, Ollama, Claude API]
+hosting: Jetson Nano (Homelab)
+deploy: manuell, systemd
+status: live
+
+purpose: |
+  Persönlicher Telegram Homelab-Bot.
+  ~60 Commands, ~45 Cronjobs.
+  News (RSS), Wetter, Kalender, Service-Monitoring, Lichess, BitAxe Mining.
+
+api: null
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Polling-basiert (kein Webhook).
+  Steuert Homelab-Geräte via SSH/API.
+  Home Assistant Kalender-Integration.
+  Tägliche Stats und Zusammenfassungen.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

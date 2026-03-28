@@ -1,0 +1,37 @@
+name: todomanager
+url: https://leben.nixblick.de
+repo: nixblick/todomanager
+type: web-app
+stack: [PHP 8, MySQL, Vanilla JS]
+hosting: Goneo (Deutschland, DSGVO)
+deploy: GitHub Actions → SFTP on push to main
+status: live
+
+purpose: |
+  Andrés persönliche Todo- und Coaching-App.
+  Spalten-System: Energiefresser, Offen, Loslassen, Licht-aus, Keksdose.
+  Eisenhower-Matrix, Drag&Drop, API für Automation (Claude, Cron).
+
+api:
+  base: https://leben.nixblick.de/api.php
+  auth: X-API-Key Header
+  secrets: .secrets/todomanager/
+
+depends_on: [shared]
+shared_integration:
+  analytics: true
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Coach-System (Telegram-Bot) läuft separat im coach/ Verzeichnis.
+  KeePass-Datei liegt im Repo (verschlüsselt).
+  Persönliche/organisatorische Todos gehören hierher, nicht in TODO.md der Repos.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

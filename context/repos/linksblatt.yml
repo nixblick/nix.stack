@@ -1,0 +1,33 @@
+name: linksblatt
+url: null
+repo: nixblick/linksblatt
+type: static-site
+stack: [HTML5, CSS3 (W3.CSS), Vanilla JS, Bash (jq)]
+hosting: Goneo (Deutschland, DSGVO)
+deploy: SFTP, Cron-gesteuerte Rotation
+status: live
+
+purpose: |
+  Satirische Nachrichtenrotation — 9 politische Kategorien.
+  Artikel rotieren automatisch alle 6 Stunden per Cron.
+
+api: null
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Kategorien: Bildung, Erfolge, Frieden, Gleichstellung,
+  Migration, Ost-West, Soziales, Umwelt, Vermögenssteuer.
+  Content-Rotation per Bash/jq-Skript.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

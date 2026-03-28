@@ -1,0 +1,34 @@
+name: aigude_on_rocky
+url: null
+repo: nixblick/aigude_on_rocky
+type: infra
+stack: [Ansible, Rocky Linux 9, PostgreSQL 15, Nginx, OpenWebUI, ClamAV, Fail2Ban, CheckMK]
+hosting: Eigener Server (Rocky Linux 9)
+deploy: Ansible Playbooks
+status: live
+
+purpose: |
+  Infrastructure-as-Code für den AIGude-Server.
+  OpenWebUI auf Rocky Linux 9 mit vollständiger Härtung.
+  Deployment, Backup, Restore, Monitoring, Credential-Rotation.
+
+api: null
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Zugriff nur per SSH-Tunnel.
+  Offline-Harness aus nix.stack/offline/ aktiv.
+  Ansible-Lint + Schutz-Hook.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

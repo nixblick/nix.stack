@@ -112,6 +112,10 @@ nix.stack/
 │   ├── security_knowledge/     # Schwachstellen-Wissensbasis (19 Typen, OWASP/CWE)
 │   │   └── vulnerabilities.yml # Pruefkatalog fuer /kritiker-web, /cso, /repo-health
 │   └── tmux.conf               # tmux-Konfiguration (optional)
+├── context/                    # Zentrale Projekt-Map (Symlink: ~/.claude/context/)
+│   ├── OVERVIEW.md             # Karte aller nixblick-Projekte
+│   ├── SCHEMA.md               # YAML-Schema fuer Repo-Definitionen
+│   └── repos/*.yml             # Pro Projekt eine Kontextdatei
 ├── HARNESS.md                  # Theorie + Dokumentation des Harness-Ansatzes
 ├── CHANGELOG.md
 └── README.md

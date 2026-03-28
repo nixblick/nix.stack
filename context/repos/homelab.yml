@@ -1,0 +1,33 @@
+name: HOMELAB
+url: null
+repo: nixblick/HOMELAB
+type: infra
+stack: [Ansible, N8N (Docker), PostgreSQL (Docker), Ollama, AdGuard Home, OpenWrt, Docker, Portainer]
+hosting: Homelab (n8n0 Rocky, nvidia_nano Jetson, wyse Rocky, OpenWrt)
+deploy: Ansible Playbooks, N8N Workflows
+status: live
+
+purpose: |
+  N8N-driven autonome Homelab-Infrastruktur.
+  System-Updates, Container-Updates, Monitoring via N8N-Workflows.
+  8 Deployment-Phasen, 10+ Workflows.
+
+api: null
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Geräte: n8n0 (Rocky), nvidia_nano (Jetson Orin), wyse (Rocky), OpenWrt Router.
+  N8N, Portainer, OpenWrt Dashboards nur intern erreichbar.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

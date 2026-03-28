@@ -1,0 +1,32 @@
+name: linuxguru
+url: null
+repo: nixblick/linuxguru
+type: collection
+stack: [Bash, Git]
+hosting: null
+deploy: null
+status: live
+
+purpose: |
+  Linux-Admin Wissensbasis und Skriptsammlung.
+  23 Unterverzeichnisse — clawd, coach, conky, btc, etc.
+
+api: null
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Referenz-Repo für eigene Skripte und Configs.
+  Kein eigenständiges Produkt.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

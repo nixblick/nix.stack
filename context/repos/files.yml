@@ -1,0 +1,31 @@
+name: files
+url: null
+repo: nixblick/files
+type: collection
+stack: [Bash, PowerShell, Git]
+hosting: null
+deploy: null
+status: live
+
+purpose: |
+  Geteilte Dateien — Skripte, Daten, Bilder, PowerShell-Configs.
+  Schema-Tools, Musikdateien, Schach-Daten, Conky-Configs.
+
+api: null
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Sammel-Repo ohne eigene Anwendung.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

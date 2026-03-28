@@ -1,0 +1,35 @@
+name: ChessAnimator
+url: https://hinjas.ddns.net
+repo: nixblick/ChessAnimator
+type: web-app
+stack: [Flask, Python 3, Stockfish, SQLite, fpdf2, cairosvg, Pillow]
+hosting: Jetson Nano (Homelab), Reverse Proxy via n8n0
+deploy: systemd Service, manuell
+status: live
+
+purpose: |
+  Schach-Trainingsblätter und Repertoire-Reports für Vereinsspieler.
+  Lichess/OTB-Partien → druckfertige PDFs.
+  Out-of-Book-Analyse, Gegner-Vorbereitung, Engine-Analyse.
+
+api: null
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Lichess Eval-DB: SQLite mit 363M Positionen (84GB).
+  Läuft auf Jetson Nano mit GPU-Unterstützung.
+  User Self-Registration. Chessable-Integration. GIF-Animationen.
+  Premium-Potenzial vorhanden.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

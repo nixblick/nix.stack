@@ -1,0 +1,33 @@
+name: skyrun
+url: null
+repo: nixblick/skyrun
+type: web-app
+stack: [PHP 7.4+, MySQL, HTML5, CSS3, ES6+ JavaScript]
+hosting: Goneo (Deutschland, DSGVO)
+deploy: GitHub Actions → FTPS on push to main
+status: live
+
+purpose: |
+  Anmeldesystem für den wöchentlichen Skyrun (MesseTurm Frankfurt).
+  Registrierung mit Warteliste, Stationsverwaltung, Admin-Panel.
+  CSV/JSON-Export, Anwesenheitsstatistik.
+
+api: null
+
+depends_on: [shared]
+shared_integration:
+  analytics: true
+  datenschutz: true
+  impressum: true
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Admin-Bereich passwortgeschützt.
+  Wartelisten-Logik automatisch bei voller Kapazität.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

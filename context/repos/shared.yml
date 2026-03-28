@@ -1,0 +1,33 @@
+name: shared
+url: null
+repo: nixblick/shared
+type: collection
+stack: [HTML, JS, Markdown]
+hosting: null
+deploy: null
+status: live
+
+purpose: |
+  Gemeinsame Ressourcen für alle nixblick-Webprojekte.
+  Analytics-Snippet, Datenschutz-Templates, Impressum-Templates.
+  STANDARDS.md für projektübergreifende Entscheidungen.
+
+api: null
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Wird von Web-Projekten referenziert (bvkfrankfurt, skyrun, new_world, todomanager).
+  Änderungen hier wirken sich auf alle abhängigen Projekte aus.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

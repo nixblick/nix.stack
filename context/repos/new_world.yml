@@ -1,0 +1,40 @@
+name: new_world
+url: null
+repo: nixblick/new_world
+type: static-site
+stack: [HTML5, CSS3, Vanilla JS, Python (Dev-Server)]
+hosting: Goneo (Deutschland, DSGVO)
+deploy: GitHub Actions → SFTP on push to main
+status: live
+
+purpose: |
+  Multi-Domain Website-Repo — 5 Websites mit zentralisiertem CSS/JS.
+  Universelles Footer-System per JavaScript-Injection.
+  Ein footer.js-Update → alle 5 Domains sofort aktuell.
+
+domains:
+  - www.andrehinz.de (IT-Admin, Terminal-Theme)
+  - www.nixblick.de (Linux/Running/Chess, Tech-Theme)
+  - www.hinjas.de (Family, Pastell/Comic Sans)
+  - www.gudeai.de (AI Sci-Fi, Neon-Blue)
+  - www.wir-on-air.de (Music/Radio, RGB-Gradient)
+
+api: null
+
+depends_on: [shared]
+shared_integration:
+  analytics: true
+  datenschutz: true
+  impressum: true
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Zentralisiertes Design-System mit Theme-spezifischen Overrides.
+  Footer wird per CDN auf allen Domains geladen.
+
+last_review: 2026-03-28
+review_interval: wöchentlich

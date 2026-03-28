@@ -48,7 +48,21 @@ for skill_dir in "$SCRIPT_DIR"/skills/*/; do
   echo "[OK] Skill /$skill_name -> $(readlink -f "$target")"
 done
 
-# 4. Hook in settings.json registrieren (falls noch nicht vorhanden)
+# 4. Projekt-Kontext als Symlink (zentrale Projekt-Map fuer alle Assistenten)
+CONTEXT_SRC="$REPO_DIR/context"
+CONTEXT_DST="$CLAUDE_DIR/context"
+if [[ -d "$CONTEXT_SRC" ]]; then
+  if [[ -L "$CONTEXT_DST" ]]; then
+    rm "$CONTEXT_DST"
+  elif [[ -d "$CONTEXT_DST" ]]; then
+    rm -rf "$CONTEXT_DST"
+    echo "[UPGRADE] Alte Kontext-Kopie entfernt"
+  fi
+  ln -sf "$CONTEXT_SRC" "$CONTEXT_DST"
+  echo "[OK] Kontext -> $CONTEXT_SRC"
+fi
+
+# 5. Hook in settings.json registrieren (falls noch nicht vorhanden)
 SETTINGS="$CLAUDE_DIR/settings.json"
 if [[ -f "$SETTINGS" ]]; then
   if grep -q "schutz.sh" "$SETTINGS"; then
@@ -86,13 +100,13 @@ SETTINGS_EOF
   echo "[OK] settings.json erstellt mit Schutz-Hook"
 fi
 
-# 5. Hinweis auf Rules
+# 6. Hinweis auf Rules
 echo ""
 echo "[INFO] Optional: Rules fuer Session-Kontext kopieren:"
 echo "       cp $SCRIPT_DIR/rules/arbeitsumgebung.md <projekt>/.claude/rules/"
 echo ""
 
-# 6. tmux.conf (optional)
+# 7. tmux.conf (optional)
 TMUX_SRC="$REPO_DIR/shared/tmux.conf"
 TMUX_DST="$HOME/.tmux.conf"
 if [[ -f "$TMUX_SRC" ]]; then
@@ -115,7 +129,7 @@ if [[ -f "$TMUX_SRC" ]]; then
   fi
 fi
 
-# 7. Test
+# 8. Test
 echo "=== Schutz-Hook Test ==="
 echo '{"tool_input":{"command":"rm -rf /home/test/GitHub"}}' | "$HOOKS_DIR/schutz.sh" 2>&1 && echo "[FEHLER] Hook hat nicht blockiert!" || echo "[OK] Destruktiver Befehl blockiert (Exit $?)"
 echo '{"tool_input":{"command":"ls -la"}}' | "$HOOKS_DIR/schutz.sh" 2>&1 && echo "[OK] Sicherer Befehl erlaubt" || echo "[FEHLER] Sicherer Befehl blockiert!"
