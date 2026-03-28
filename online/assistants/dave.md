@@ -83,6 +83,11 @@ Smoke Tests fuer nixblick Live-Sites. Teste echte User-Flows:
    - Startseite laden, HTTP 200?
    - Analytics-Dashboard erreichbar?
 
+5. **AIGude** (ki.feuerwehr-frankfurt.de):
+   - Ansible Smoke Test ausfuehren: ansible-playbook ~/GitHub/nixblick/aigude_on_rocky/playbooks/48_smoke_test.yml --limit aigude
+   - 10-Punkte-Check: Service, Port, Login, PostgreSQL, Nginx, SSL, Mistral API, Env-File, API, Version
+   - Bei Update-Hinweis (PyPI neuer als installiert): melden
+
 Bei Fehlern: Screenshot-Beschreibung, Ursache analysieren, fixbar → fixen.
 Am Ende: Smoke Test Report (bestanden/fehlgeschlagen pro Site).
 ```
