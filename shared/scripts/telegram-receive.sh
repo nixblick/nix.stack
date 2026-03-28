@@ -2,53 +2,89 @@
 # telegram-receive.sh — Liest Nachrichten aus der Telegram-Inbox
 #
 # Die Inbox wird vom CoachNixBot gefuellt (todomanager/coach/bot.py).
-# Jede Nachricht die Andre an den Bot schickt, landet als JSONL-Zeile.
+# Nachrichten haben ein "target" Feld: coach, dave, einstein, bodo, casi
 #
 # Nutzung:
-#   telegram-receive.sh              # Alle ungelesenen Nachrichten
-#   telegram-receive.sh --since 1h   # Nachrichten der letzten Stunde
-#   telegram-receive.sh --last 5     # Letzte 5 Nachrichten
-#   telegram-receive.sh --clear      # Inbox leeren (nach dem Lesen)
+#   telegram-receive                     # Alle Nachrichten
+#   telegram-receive --for dave          # Nur Nachrichten an Dave
+#   telegram-receive --for einstein      # Nur Nachrichten an Einstein
+#   telegram-receive --since 1h          # Nachrichten der letzten Stunde
+#   telegram-receive --for dave --since 2h  # Kombination
+#   telegram-receive --last 5            # Letzte 5 Nachrichten
+#   telegram-receive --clear             # Inbox leeren
+#   telegram-receive --clear dave        # Nur Daves Nachrichten loeschen
 #
-# Format pro Zeile: {"time":"2026-03-28T20:15:00","text":"Nachricht von Andre"}
+# Format: {"time":"...","target":"dave","text":"Nachricht"}
 
 set -euo pipefail
 
 INBOX_FILE="$HOME/.claude/telegram_inbox.jsonl"
 
 if [[ ! -f "$INBOX_FILE" ]]; then
-  echo "Keine Nachrichten (Inbox existiert nicht)."
+  echo "Keine Nachrichten."
   exit 0
 fi
 
-MODE="${1:---all}"
+# Argumente parsen
+TARGET=""
+SINCE=""
+LAST=""
+CLEAR=false
+CLEAR_TARGET=""
 
-case "$MODE" in
-  --since)
-    # Nachrichten seit X (z.B. 1h, 30m, 2d)
-    DURATION="${2:-1h}"
-    SINCE=$(date -d "-${DURATION}" +%Y-%m-%dT%H:%M:%S 2>/dev/null || date -v-"${DURATION}" +%Y-%m-%dT%H:%M:%S 2>/dev/null)
-    if [[ -n "$SINCE" ]]; then
-      jq -r "select(.time >= \"$SINCE\") | \"[\(.time)] \(.text)\"" "$INBOX_FILE" 2>/dev/null
-    else
-      echo "Fehler: Ungueltige Dauer '$DURATION'" >&2
-      exit 1
-    fi
-    ;;
-  --last)
-    COUNT="${2:-5}"
-    tail -n "$COUNT" "$INBOX_FILE" | jq -r '"[\(.time)] \(.text)"' 2>/dev/null
-    ;;
-  --clear)
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --for)    TARGET="$2"; shift 2 ;;
+    --since)  SINCE="$2"; shift 2 ;;
+    --last)   LAST="$2"; shift 2 ;;
+    --clear)
+      CLEAR=true
+      if [[ "${2:-}" != "" && "${2:-}" != --* ]]; then
+        CLEAR_TARGET="$2"; shift 2
+      else
+        shift 1
+      fi
+      ;;
+    *)        shift ;;
+  esac
+done
+
+# Clear-Modus
+if $CLEAR; then
+  if [[ -n "$CLEAR_TARGET" ]]; then
+    # Nur Nachrichten eines bestimmten Targets loeschen
+    BEFORE=$(wc -l < "$INBOX_FILE")
+    jq -c "select(.target != \"$CLEAR_TARGET\")" "$INBOX_FILE" > "${INBOX_FILE}.tmp" 2>/dev/null || true
+    mv "${INBOX_FILE}.tmp" "$INBOX_FILE"
+    AFTER=$(wc -l < "$INBOX_FILE")
+    echo "$((BEFORE - AFTER)) Nachrichten fuer $CLEAR_TARGET geloescht."
+  else
     LINES=$(wc -l < "$INBOX_FILE")
     : > "$INBOX_FILE"
     echo "$LINES Nachrichten geloescht."
-    ;;
-  --all|*)
-    if [[ -s "$INBOX_FILE" ]]; then
-      jq -r '"[\(.time)] \(.text)"' "$INBOX_FILE" 2>/dev/null
-    else
-      echo "Keine Nachrichten."
-    fi
-    ;;
-esac
+  fi
+  exit 0
+fi
+
+# Filter bauen
+FILTER="."
+if [[ -n "$TARGET" ]]; then
+  FILTER="select(.target == \"$TARGET\")"
+fi
+if [[ -n "$SINCE" ]]; then
+  SINCE_TS=$(date -d "-${SINCE}" +%Y-%m-%dT%H:%M:%S 2>/dev/null || date -v-"${SINCE}" +%Y-%m-%dT%H:%M:%S 2>/dev/null)
+  if [[ -n "$SINCE_TS" ]]; then
+    FILTER="${FILTER} | select(.time >= \"$SINCE_TS\")"
+  fi
+fi
+
+# Ausgabe
+if [[ -n "$LAST" ]]; then
+  tail -n "$LAST" "$INBOX_FILE" | jq -r "$FILTER | \"[\(.target // \"coach\")] \(.text)\"" 2>/dev/null
+else
+  if [[ -s "$INBOX_FILE" ]]; then
+    jq -r "$FILTER | \"[\(.target // \"coach\")] \(.text)\"" "$INBOX_FILE" 2>/dev/null
+  else
+    echo "Keine Nachrichten."
+  fi
+fi
