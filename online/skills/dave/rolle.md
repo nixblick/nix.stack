@@ -45,12 +45,15 @@ Dave soll bei jedem CronJob pruefen ob Andre per Telegram geantwortet hat (teleg
 
 | Zeit (lokal) | Cron | Job | Tage |
 |---|---|---|---|
+| alle 10 Min | `*/10 * * * *` | **Inbox-Poll** | Immer |
 | 08:23 | `23 8 * * 1-5` | Workflow-Check | Mo-Fr |
 | 09:47 | `47 9 * * 1,3,5` | Site-Monitor | Mo/Mi/Fr |
 | 10:13 | `13 10 * * 2,4` | Repo-Health | Di/Do |
 | 11:07 | `7 11 * * 1,4` | Smoke Tests | Mo/Do |
 | 13:17 | `17 13 * * 3` | System-Wartung | Mi |
 | 18:03 | `3 18 * * 1-5` | Tagesbericht | Mo-Fr |
+
+Der **Inbox-Poll** ist Daves Ohr: Er checkt alle 10 Minuten ob Andre per Telegram einen Auftrag geschickt hat (z.B. "/dave smoke test skyrun"). Wenn ja, fuehrt er ihn sofort aus und meldet das Ergebnis per Telegram zurueck.
 
 ## Einrichten
 

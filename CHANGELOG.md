@@ -1,5 +1,11 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v3.4.0
+- **Dave Inbox-Poll** — alle 10 Minuten checkt Dave die Telegram-Inbox
+  - Andre schickt `/dave smoke test skyrun` per Telegram → Dave fuehrt es aus → Ergebnis per Telegram zurueck
+  - Funktioniert solange Claude Code in tmux laeuft (Session-only CronJob, 7 Tage Limit)
+  - Dave als "immer erreichbarer" DevOps-Assistent per Telegram
+
 ## 2026-03-28 — v3.3.0
 - **Bot-Commands bei Telegram registriert** — /dave, /einstein, /bodo, /casi mit Autocomplete
 - **Inline-Mentions** — /dave und @einstein funktionieren jetzt auch mitten im Text

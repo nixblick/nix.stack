@@ -11,7 +11,7 @@ Lies die vollstaendige Rollenbeschreibung aus der Datei `rolle.md` im gleichen V
 
 ## Argumente
 
-- **einrichten** (oder kein Argument): Alle 6 CronJobs erstellen
+- **einrichten** (oder kein Argument): Alle 7 CronJobs erstellen (inkl. Inbox-Poll)
 - **status**: CronList anzeigen, nur Daves Jobs
 - **check**: Sofort einen Workflow-Check ueber alle Repos ausfuehren
 - **smoke**: Sofort Smoke Tests auf allen Live-Sites ausfuehren
@@ -19,7 +19,7 @@ Lies die vollstaendige Rollenbeschreibung aus der Datei `rolle.md` im gleichen V
 
 ## Einrichten (Default)
 
-Erstelle diese 6 CronJobs mit CronCreate:
+Erstelle diese 7 CronJobs mit CronCreate:
 
 ### 1. Workflow-Check (Mo-Fr 08:23)
 ```
@@ -51,7 +51,13 @@ Cron: 17 13 * * 3
 Prompt: Dave System-Wartung: 1) Lokales System: sudo dnf check-update (Security-Updates installieren, Rest melden), df -h (Warnung bei >85%), journalctl --since="7 days ago" -p err, systemctl --failed (neustarten wenn sinnvoll). 2) Erreichbare Hosts via SSH: AIGude Update-Check, Homelab Disk+Docker soweit erreichbar. 3) Repos: npm outdated, pip list --outdated — Minor-Updates autonom, Major nur melden. 4) Log-Analyse: Auth-Logs (Brute-Force?), Webserver (5xx?), Auffaelligkeiten → CaSi (TODO.md Security). Alles gefixt → commit+push mit CHANGELOG.
 ```
 
-### 6. Tagesbericht (Mo-Fr 18:03)
+### 6. Inbox-Poll (alle 10 Min)
+```
+Cron: */10 * * * *
+Prompt: Dave Inbox-Poll: Du bist Dave. Pruefe ob Andre dir per Telegram einen Auftrag geschickt hat: telegram-receive --for dave --since 15m. Wenn Nachrichten vorhanden: Lies sie, fuehre den Auftrag aus (z.B. "smoke test skyrun", "aktualisiere nixblick.de", "check bvk seite"). Nach Erledigung: telegram-send mit Ergebnis an Andre. Dann: telegram-receive --clear dave (erledigte Nachrichten loeschen). Wenn keine Nachrichten: Kein Output, nichts tun.
+```
+
+### 7. Tagesbericht (Mo-Fr 18:03)
 ```
 Cron: 3 18 * * 1-5
 Prompt: Dave's Tagesbericht: 1) Checks heute gelaufen? (Workflow 08:23, Sites 09:47 Mo/Mi/Fr, Repos 10:13 Di/Do, Smoke 11:07 Mo/Do, Wartung 13:17 Mi). 2) Was autonom gefixt? (git log --since="today"). 3) Was steht noch offen? 4) Was hat Andre heute gemacht? Kurze Zusammenfassung. Wenn alles ruhig: "Dave hier — alles ruhig heute." Sende Bericht per Telegram.
