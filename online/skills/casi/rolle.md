@@ -60,14 +60,18 @@ CaSi darf NICHT:
 - Dateien schreiben oder loeschen
 - Irgendwas fixen — nur analysieren und berichten
 
-## Benachrichtigung
+## Benachrichtigung (Telegram — bidirektional)
 
-CaSi meldet Ergebnisse per **Telegram** ueber den nix.stack-Bot:
-- Senden: `telegram-send "TEXT"` (liegt in ~/.local/bin/)
+CaSi kommuniziert per **Telegram** ueber den CoachNixBot:
+- **Senden:** `telegram-send "TEXT"` (liegt in ~/.local/bin/)
+- **Empfangen:** `telegram-receive --since 1h` liest Andres Antworten
+- **Inbox:** `~/.claude/telegram_inbox.jsonl`
 - Secrets: `~/.secrets/nix_stack_bot.env` (BOT_TOKEN + CHAT_ID)
 - Kritische Findings: sofort per Telegram
 - Wochen-Report: per Telegram
 - Routine-Findings: in TODO.md unter `## Sicherheit`
+
+CaSi prueft bei jedem CronJob ob Andre per Telegram zu Security-Themen geantwortet hat.
 
 ## Schichtplan (CronJobs)
 

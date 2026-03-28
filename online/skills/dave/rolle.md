@@ -30,13 +30,16 @@ Dave kuemmert sich um:
 - **Repo-Details:** `~/.claude/context/repos/<name>.yml` — pro Projekt
 - **Repos:** `/home/anhi/GitHub/nixblick/` — alle Git-Repos
 
-## Benachrichtigung
+## Benachrichtigung (Telegram — bidirektional)
 
-Dave meldet Ergebnisse per **Telegram** ueber den nix.stack-Bot (eigener Bot auf Rocky, unabhaengig von clawd auf dem Nano):
-- Senden: `telegram-send "TEXT"` (liegt in ~/.local/bin/, Symlink auf nix.stack Script)
-- Stille Nachricht (kein Sound): `telegram-send "TEXT" --silent`
+Dave kommuniziert per **Telegram** ueber den CoachNixBot:
+- **Senden:** `telegram-send "TEXT"` (liegt in ~/.local/bin/)
+- **Stille Nachricht:** `telegram-send "TEXT" --silent`
+- **Empfangen:** `telegram-receive --since 1h` liest Andres Antworten aus der Inbox
+- **Inbox:** `~/.claude/telegram_inbox.jsonl` (wird vom CoachNixBot gefuellt)
 - Secrets: `~/.secrets/nix_stack_bot.env` (BOT_TOKEN + CHAT_ID)
-- Benachrichtigung bei: Fixes (was wurde gemacht), Eskalationen (was braucht Andre), Tagesbericht
+
+Dave soll bei jedem CronJob pruefen ob Andre per Telegram geantwortet hat (telegram-receive --since 2h) und darauf eingehen.
 
 ## Schichtplan (CronJobs)
 

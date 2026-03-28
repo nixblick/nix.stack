@@ -1,5 +1,14 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v3.2.0
+- **Bidirektionale Telegram-Kommunikation** ueber CoachNixBot:
+  - `telegram-send` zum Senden (alle 4 Assistenten)
+  - `telegram-receive` zum Empfangen (liest Inbox-Datei)
+  - CoachNixBot (todomanager) erweitert: schreibt eingehende Nachrichten in `~/.claude/telegram_inbox.jsonl`
+  - Bot neugestartet mit Inbox-Feature
+  - Einstein nutzt jetzt auch Telegram (Erinnerungen, Briefings, Retro)
+  - Alle Assistenten pruefen bei CronJobs ob Andre per Telegram geantwortet hat
+
 ## 2026-03-28 — v3.1.0
 - **Telegram-Bot-Integration** fuer nix.stack auf Rocky (eigener Bot, unabhaengig von clawd/Nano):
   - `shared/scripts/telegram-send.sh` — universelles Send-Script fuer alle Assistenten

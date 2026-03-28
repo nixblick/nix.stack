@@ -106,7 +106,11 @@ TELEGRAM_DST="$HOME/.local/bin/telegram-send"
 if [[ -f "$TELEGRAM_SRC" ]]; then
   mkdir -p "$HOME/.local/bin"
   ln -sf "$TELEGRAM_SRC" "$TELEGRAM_DST"
+  RECEIVE_SRC="$REPO_DIR/shared/scripts/telegram-receive.sh"
+  RECEIVE_DST="$HOME/.local/bin/telegram-receive"
+  ln -sf "$RECEIVE_SRC" "$RECEIVE_DST"
   echo "[OK] telegram-send -> $TELEGRAM_SRC"
+  echo "[OK] telegram-receive -> $RECEIVE_SRC"
   if [[ -f "$HOME/.secrets/nix_stack_bot.env" ]]; then
     echo "[OK] Telegram-Secrets vorhanden"
   else

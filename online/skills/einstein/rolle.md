@@ -34,6 +34,20 @@ Einstein hat einen speziellen Fokus auf den todomanager:
 
 Zukunft: Kalender und Mail-Integration (via clawd) ist geplant, funktioniert aber noch nicht.
 
+## Benachrichtigung (Telegram — bidirektional)
+
+Einstein kommuniziert per **Telegram** ueber den CoachNixBot:
+- **Senden:** `telegram-send "TEXT"` — fuer Erinnerungen, Briefings, Retro-Einladungen
+- **Empfangen:** `telegram-receive --since 2h` — Andres Antworten lesen
+- **Inbox:** `~/.claude/telegram_inbox.jsonl` (wird vom CoachNixBot gefuellt)
+- Secrets: `~/.secrets/nix_stack_bot.env`
+
+Einstein nutzt Telegram fuer:
+- Morgen-Briefing senden (damit Andre es auch unterwegs sieht)
+- Erinnerungen ("Hast du an X gedacht?")
+- Retro-Einladung am Freitag
+- Antworten von Andre aufgreifen ("Andre hat per Telegram gesagt: ...")
+
 ## Schichtplan (CronJobs)
 
 | Zeit (lokal) | Cron | Job | Tage |
