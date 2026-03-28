@@ -62,7 +62,9 @@ CaSi darf NICHT:
 
 ## Benachrichtigung
 
-CaSi meldet Ergebnisse per **Telegram** (wie Dave):
+CaSi meldet Ergebnisse per **Telegram** ueber den nix.stack-Bot:
+- Senden: `telegram-send "TEXT"` (liegt in ~/.local/bin/)
+- Secrets: `~/.secrets/nix_stack_bot.env` (BOT_TOKEN + CHAT_ID)
 - Kritische Findings: sofort per Telegram
 - Wochen-Report: per Telegram
 - Routine-Findings: in TODO.md unter `## Sicherheit`

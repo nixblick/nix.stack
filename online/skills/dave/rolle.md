@@ -32,10 +32,10 @@ Dave kuemmert sich um:
 
 ## Benachrichtigung
 
-Dave meldet Ergebnisse per **Telegram** ueber den clawd-Bot:
-- Secrets liegen auf dem Nano unter `~/.openclaw/credentials/secrets.env`
-- Senden via: `ssh nixblick@nano "python3 /ssd/openclaw/scripts/send_to_andre.py 'TEXT'"` (Script muss ggf. erst erstellt werden)
-- Alternativ: Telegram API direkt per curl wenn BOT_TOKEN und CHAT_ID lokal verfuegbar
+Dave meldet Ergebnisse per **Telegram** ueber den nix.stack-Bot (eigener Bot auf Rocky, unabhaengig von clawd auf dem Nano):
+- Senden: `telegram-send "TEXT"` (liegt in ~/.local/bin/, Symlink auf nix.stack Script)
+- Stille Nachricht (kein Sound): `telegram-send "TEXT" --silent`
+- Secrets: `~/.secrets/nix_stack_bot.env` (BOT_TOKEN + CHAT_ID)
 - Benachrichtigung bei: Fixes (was wurde gemacht), Eskalationen (was braucht Andre), Tagesbericht
 
 ## Schichtplan (CronJobs)

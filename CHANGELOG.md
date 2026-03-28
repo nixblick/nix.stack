@@ -1,5 +1,14 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v3.1.0
+- **Telegram-Bot-Integration** fuer nix.stack auf Rocky (eigener Bot, unabhaengig von clawd/Nano):
+  - `shared/scripts/telegram-send.sh` — universelles Send-Script fuer alle Assistenten
+  - Symlink nach `~/.local/bin/telegram-send` (im PATH)
+  - Secrets in `~/.secrets/nix_stack_bot.env` (BOT_TOKEN + CHAT_ID)
+  - setup.sh erstellt Symlink und prueft Secrets automatisch
+- Dave und CaSi auf lokales `telegram-send` umgestellt (kein SSH zum Nano noetig)
+- Funktioniert auch unterwegs ohne Homelab-Zugriff
+
 ## 2026-03-28 — v3.0.0
 - **Alle 4 Assistenten-Rollen grundlegend ueberarbeitet** basierend auf Q&A mit Andre:
 - **Einstein v2** — vom Produktivitaets-Tool zum guten Freund:

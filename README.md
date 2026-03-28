@@ -109,6 +109,7 @@ nix.stack/
 │   ├── hooks/pre-commit-check.sh  # CHANGELOG + Secrets Pruefung
 │   ├── hooks/pre-commit-kritiker-prompt.md  # Agent-Prompt Referenz
 │   ├── hooks/notification.sh   # Desktop-Benachrichtigung (Linux + macOS)
+│   ├── scripts/telegram-send.sh # Telegram-Bot fuer Assistenten-Benachrichtigungen
 │   ├── security_knowledge/     # Schwachstellen-Wissensbasis (19 Typen, OWASP/CWE)
 │   │   └── vulnerabilities.yml # Pruefkatalog fuer /kritiker-web, /cso, /repo-health
 │   └── tmux.conf               # tmux-Konfiguration (optional)

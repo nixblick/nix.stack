@@ -100,13 +100,34 @@ SETTINGS_EOF
   echo "[OK] settings.json erstellt mit Schutz-Hook"
 fi
 
-# 6. Hinweis auf Rules
+# 6. Telegram-Script als Symlink (Assistenten nutzen es zum Senden)
+TELEGRAM_SRC="$REPO_DIR/shared/scripts/telegram-send.sh"
+TELEGRAM_DST="$HOME/.local/bin/telegram-send"
+if [[ -f "$TELEGRAM_SRC" ]]; then
+  mkdir -p "$HOME/.local/bin"
+  ln -sf "$TELEGRAM_SRC" "$TELEGRAM_DST"
+  echo "[OK] telegram-send -> $TELEGRAM_SRC"
+  if [[ -f "$HOME/.secrets/nix_stack_bot.env" ]]; then
+    echo "[OK] Telegram-Secrets vorhanden"
+  else
+    echo ""
+    echo "[TODO] Telegram-Bot einrichten:"
+    echo "       1. Neuen Bot bei @BotFather erstellen"
+    echo "       2. Bot-Token und Chat-ID eintragen:"
+    echo "          echo 'TELEGRAM_BOT_TOKEN=dein_token' > ~/.secrets/nix_stack_bot.env"
+    echo "          echo 'TELEGRAM_CHAT_ID=deine_chat_id' >> ~/.secrets/nix_stack_bot.env"
+    echo "          chmod 600 ~/.secrets/nix_stack_bot.env"
+    echo ""
+  fi
+fi
+
+# 7. Hinweis auf Rules
 echo ""
 echo "[INFO] Optional: Rules fuer Session-Kontext kopieren:"
 echo "       cp $SCRIPT_DIR/rules/arbeitsumgebung.md <projekt>/.claude/rules/"
 echo ""
 
-# 7. tmux.conf (optional)
+# 8. tmux.conf (optional)
 TMUX_SRC="$REPO_DIR/shared/tmux.conf"
 TMUX_DST="$HOME/.tmux.conf"
 if [[ -f "$TMUX_SRC" ]]; then
@@ -129,7 +150,7 @@ if [[ -f "$TMUX_SRC" ]]; then
   fi
 fi
 
-# 8. Test
+# 9. Test
 echo "=== Schutz-Hook Test ==="
 echo '{"tool_input":{"command":"rm -rf /home/test/GitHub"}}' | "$HOOKS_DIR/schutz.sh" 2>&1 && echo "[FEHLER] Hook hat nicht blockiert!" || echo "[OK] Destruktiver Befehl blockiert (Exit $?)"
 echo '{"tool_input":{"command":"ls -la"}}' | "$HOOKS_DIR/schutz.sh" 2>&1 && echo "[OK] Sicherer Befehl erlaubt" || echo "[FEHLER] Sicherer Befehl blockiert!"
