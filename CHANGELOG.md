@@ -1,5 +1,26 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v3.0.0
+- **Alle 4 Assistenten-Rollen grundlegend ueberarbeitet** basierend auf Q&A mit Andre:
+- **Einstein v2** — vom Produktivitaets-Tool zum guten Freund:
+  - Behaelt das grosse Ganze im Blick (Job, Kinder, Gesundheit)
+  - Neuer CronJob: Wochen-Retro (Fr) — gemeinsamer Rueckblick, keine Einweg-Reports
+  - todomanager/leben.nixblick.de als zentrale Datenquelle und Pflegeobjekt
+  - Fragt aktiv nach fehlenden Aufgaben, sammelt alles (nicht nur Code)
+  - Arbeitet unabhaengig von Dave, Bodo, CaSi
+- **Bodo v2** — mit echten Zahlen:
+  - Konkrete Kosten: 150 EUR/Monat (Claude 100 + Goneo 20 + Strom 30), 0 EUR Einnahmen
+  - Portfolio-Wert als eigene Kategorie (Freelance-Akquise)
+  - Hakt nach ob letzte Vorschlaege umgesetzt wurden
+  - Aufwand-Schaetzungen bei jedem Vorschlag
+- **CaSi v2** — strenger Waechter statt Allrounder:
+  - CaSi FIXT NICHTS — nur analysieren, berichten, Anweisungen geben
+  - BSI IT-Grundschutz-Kompendium als Referenz-Framework
+  - Workflow: CaSi findet → Andre entscheidet → Dave fixt → CaSi prueft
+  - SSH-Zugriff (nur lesend) auf AIGude, Homelab, Nano
+  - Telegram fuer kritische Findings
+  - Urteilt ueber Daves Security-Arbeit
+
 ## 2026-03-28 — v2.1.0
 - **Projekt-Kontext** als Symlink verfuegbar: `~/.claude/context/` → `nix.stack/context/`
   - OVERVIEW.md (zentrale Projekt-Map), SCHEMA.md, repos/*.yml (13 Projekte)
