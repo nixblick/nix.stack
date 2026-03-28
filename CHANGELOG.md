@@ -1,5 +1,19 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v2.0.0
+- **Architektur-Umbau:** Assistenten (Dave, Einstein, Bodo) von `online/assistants/` nach `online/skills/*/rolle.md` migriert
+  - SKILL.md Dateien jetzt im Repo statt nur als Kopien in `~/.claude/skills/`
+  - Jeder Assistent hat `SKILL.md` (Einstiegspunkt) + `rolle.md` (Rollenbeschreibung)
+  - `online/assistants/` Verzeichnis entfernt — eine Quelle der Wahrheit
+- **Setup auf Symlinks umgestellt:** `setup.sh` erstellt jetzt Symlinks statt Kopien
+  - Aenderungen im Repo wirken sofort, kein erneutes setup.sh noetig
+  - Alte Kopien werden automatisch durch Symlinks ersetzt
+- **CaSi** — neuer Informationssicherheits-Guru als 4. Assistent:
+  - Vereinigt `/kritiker-web` (Code-Audit), `/cso` (gstack Infrastruktur-Audit) und `vulnerabilities.yml` (Wissensbasis)
+  - 4 CronJobs: Secrets-Scan (Mo-Fr), Dependency-Audit (Di/Fr), Web-Security-Check (Mi), Wochen-Report (Mo)
+  - Manuell aufrufbar: `/casi scan`, `/casi audit`, `/casi headers`, `/casi report`
+- Assistenten-Uebersicht: Dave (DevOps), Einstein (Produktivitaet), Bodo (Finanzen), CaSi (Sicherheit)
+
 ## 2026-03-28 — v1.6.0
 - Einstein-Prompts aktualisiert: Morgen-Briefing und Feierabend-Check nutzen jetzt fetch-todos.sh fuer Eisenhower-Daten von leben.nixblick.de API
 - Datenquellen-Sektion in einstein.md praezisiert: API-first mit Fallback auf TODO.md

@@ -31,7 +31,7 @@ Installiert:
 - **Schutz-Hook** — blockiert `rm -rf` auf GitHub/, .claude/, .ssh/, .env-Leaks, force-push, reset --hard
 - **Pre-Commit Workflow** — CHANGELOG-Check + Kritiker-Review vor jedem Commit
 - **Notification-Hook** — Desktop-Benachrichtigung wenn Claude auf Eingabe wartet
-- **6 Skills** (siehe unten)
+- **10 Skills** als Symlinks (siehe unten) — Aenderungen im Repo wirken sofort
 - **Rules** — Session-Kontext (wer, was, wie)
 - **tmux.conf** — optional nach ~/.tmux.conf symlinken
 - Arbeitet zusammen mit gstack (28+ Skills bleiben aktiv)
@@ -46,6 +46,17 @@ Installiert:
 | Repo-Health | `/repo-health` | Health-Check aller Repos (Deps, TODOs, Sicherheit) |
 | Site-Monitor | `/site-monitor` | Live-Sites pruefen (SSL, Header, Performance) |
 | Neues Projekt | `/neues-projekt` | Bootstrapper mit Standard-Struktur + Shared-Ressourcen |
+
+#### KI-Assistenten (CronJob-basiert)
+
+| Assistent | Aufruf | Rolle | CronJobs |
+|-----------|--------|-------|----------|
+| Dave | `/dave` | DevOps — Workflows, Sites, Repos, Smoke Tests | 5 (Mo-Fr) |
+| Einstein | `/einstein` | Produktivitaet — Briefings, Pausen, Feierabend | 5 (Mo-Fr) |
+| Bodo | `/bodo` | Finanzen — ROI, Monetarisierung | 2 (Mi/Fr) |
+| CaSi | `/casi` | Sicherheit — Secrets, CVEs, Headers, Reports | 4 (Mo-Fr) |
+
+Alle Assistenten per `/name einrichten` aktivierbar oder sofort nutzbar (`/dave check`, `/casi scan` etc.).
 
 ### Offline (Ansible-Controller)
 
@@ -74,6 +85,10 @@ nix.stack/
 │   ├── skills/repo-health/    # /repo-health — Health-Check aller Repos
 │   ├── skills/site-monitor/   # /site-monitor — Live-Site Monitoring
 │   ├── skills/neues-projekt/  # /neues-projekt — Projekt-Bootstrapper
+│   ├── skills/dave/           # /dave — DevOps-Assistent (SKILL.md + rolle.md)
+│   ├── skills/einstein/       # /einstein — Produktivitaets-Assistent
+│   ├── skills/bodo/           # /bodo — Money Coach
+│   ├── skills/casi/           # /casi — Informationssicherheits-Guru
 │   ├── rules/arbeitsumgebung.md
 │   ├── settings-snippet.json   # Hook-Registrierung (Referenz)
 │   └── setup.sh                # Ein-Klick-Installation

@@ -5,7 +5,7 @@
 # Installiert:
 # - Schutz-Hook (PreToolUse) in ~/.claude/hooks/
 # - Notification-Hook in ~/.claude/hooks/
-# - Web-Kritiker Skill
+# - Alle Skills als Symlinks nach ~/.claude/skills/ (eine Quelle der Wahrheit)
 # - Registriert Hooks in ~/.claude/settings.json
 # - Rules fuer Session-Kontext
 # - Optional: tmux.conf nach ~/.tmux.conf symlinken
@@ -33,12 +33,19 @@ echo "[OK] Schutz-Hook installiert: $HOOKS_DIR/schutz.sh"
 echo "[OK] Pre-Commit-Check installiert: $HOOKS_DIR/pre-commit-check.sh"
 echo "[OK] Notification-Hook installiert: $HOOKS_DIR/notification.sh"
 
-# 3. Skills installieren
+# 3. Skills als Symlinks installieren (eine Quelle der Wahrheit)
 for skill_dir in "$SCRIPT_DIR"/skills/*/; do
   skill_name=$(basename "$skill_dir")
-  mkdir -p "$SKILLS_DIR/$skill_name"
-  cp "$skill_dir/SKILL.md" "$SKILLS_DIR/$skill_name/SKILL.md"
-  echo "[OK] Skill /$skill_name installiert"
+  target="$SKILLS_DIR/$skill_name"
+  # Alte Kopie oder kaputten Symlink entfernen
+  if [[ -d "$target" && ! -L "$target" ]]; then
+    rm -rf "$target"
+    echo "[UPGRADE] Alte Kopie entfernt: $skill_name"
+  elif [[ -L "$target" ]]; then
+    rm "$target"
+  fi
+  ln -sf "$skill_dir" "$target"
+  echo "[OK] Skill /$skill_name -> $(readlink -f "$target")"
 done
 
 # 4. Hook in settings.json registrieren (falls noch nicht vorhanden)
