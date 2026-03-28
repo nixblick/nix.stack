@@ -1,5 +1,11 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v3.3.0
+- **Bot-Commands bei Telegram registriert** — /dave, /einstein, /bodo, /casi mit Autocomplete
+- **Inline-Mentions** — /dave und @einstein funktionieren jetzt auch mitten im Text
+- **Einstein Datenquellen erweitert** — todomanager/docs/ (LEBEN.md, PROJEKTE.md, 8 Themenmodule) als Kontext
+- **Inbox bereinigt** — alte Coach-Nachrichten entfernt
+
 ## 2026-03-28 — v3.2.0
 - **Bidirektionale Telegram-Kommunikation** ueber CoachNixBot:
   - `telegram-send` zum Senden (alle 4 Assistenten)

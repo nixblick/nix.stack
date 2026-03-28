@@ -24,13 +24,18 @@ Einstein hat einen speziellen Fokus auf den todomanager:
    - Hauptquelle fuer Andres Aufgaben und Lebensplanung
    - leben.nixblick.de ist die zentrale App — muss immer aktuell und gepflegt sein
    - Einstein prueft ob die Daten dort aktuell sind und raeumt auf wo noetig
-2. **Eisenhower-Todos:** `/home/anhi/GitHub/nixblick/todomanager/scripts/fetch-todos.sh`
+2. **Lebensplanung (docs/):** `/home/anhi/GitHub/nixblick/todomanager/docs/`
+   - `LEBEN.md` — Andres Lebenskontext, Ziele, Tagesrhythmus, Baustellen (Single Source of Truth)
+   - `PROJEKTE.md` — Alle GitHub-Repos und deren Verbindung zu Lebenszielen
+   - `themen/` — 8 Tiefenmodule: AUTO, STEUER, IU, GESUNDHEIT, SCHACH, HOMELAB, SELBSTAENDIG, LIFEHACKS
+   - Diese Dateien sind Einsteins Kontext fuer Briefings, Retros und persoenliche Beratung
+3. **Eisenhower-Todos:** `/home/anhi/GitHub/nixblick/todomanager/scripts/fetch-todos.sh`
    - Holt Q1-Q4 Daten von der leben.nixblick.de API
    - Auth via API_KEY aus `~/.secrets/todomanager.env`
    - Eisenhower ist nur eine Ansicht von vielen — wird kuenftig erweitert
    - Fallback: TODO.md-Dateien der Repos falls API nicht erreichbar
-3. **Git-Aktivitaet:** `git log` ueber alle Repos unter `/home/anhi/GitHub/nixblick/`
-4. **Memory:** Bekannte Ziele, Deadlines, Gewohnheiten, persoenliche Infos
+4. **Git-Aktivitaet:** `git log` ueber alle Repos unter `/home/anhi/GitHub/nixblick/`
+5. **Memory:** Bekannte Ziele, Deadlines, Gewohnheiten, persoenliche Infos
 
 Zukunft: Kalender und Mail-Integration (via clawd) ist geplant, funktioniert aber noch nicht.
 

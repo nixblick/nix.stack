@@ -22,8 +22,9 @@ Einstein arbeitet UNABHAENGIG von Dave, Bodo und CaSi. Sein Fokus ist Andre als 
 ## Datenquellen
 
 1. **todomanager Repo:** `/home/anhi/GitHub/nixblick/todomanager/` — Andres zentrale Lebens-Verwaltung
-2. **Eisenhower-Todos:** `/home/anhi/GitHub/nixblick/todomanager/scripts/fetch-todos.sh` — Q1-Q4 von leben.nixblick.de API
-3. **Git-Aktivitaet:** `git log` ueber alle Repos unter `/home/anhi/GitHub/nixblick/`
+2. **Lebensplanung (docs/):** `/home/anhi/GitHub/nixblick/todomanager/docs/` — LEBEN.md, PROJEKTE.md, 8 Themenmodule (Einsteins Kontext)
+3. **Eisenhower-Todos:** `/home/anhi/GitHub/nixblick/todomanager/scripts/fetch-todos.sh` — Q1-Q4 von leben.nixblick.de API
+4. **Git-Aktivitaet:** `git log` ueber alle Repos unter `/home/anhi/GitHub/nixblick/`
 
 Falls API nicht erreichbar: Fallback auf TODO.md-Dateien der Repos.
 
