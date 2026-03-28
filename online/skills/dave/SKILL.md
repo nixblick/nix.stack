@@ -11,14 +11,15 @@ Lies die vollstaendige Rollenbeschreibung aus der Datei `rolle.md` im gleichen V
 
 ## Argumente
 
-- **einrichten** (oder kein Argument): Alle 5 CronJobs erstellen
+- **einrichten** (oder kein Argument): Alle 6 CronJobs erstellen
 - **status**: CronList anzeigen, nur Daves Jobs
 - **check**: Sofort einen Workflow-Check ueber alle Repos ausfuehren
 - **smoke**: Sofort Smoke Tests auf allen Live-Sites ausfuehren
+- **wartung**: Sofort System-Wartung ausfuehren (Updates, Disk, Logs)
 
 ## Einrichten (Default)
 
-Erstelle diese 5 CronJobs mit CronCreate:
+Erstelle diese 6 CronJobs mit CronCreate:
 
 ### 1. Workflow-Check (Mo-Fr 08:23)
 ```
@@ -44,19 +45,27 @@ Cron: 7 11 * * 1,4
 Prompt: Smoke Tests fuer nixblick Live-Sites. 1) skyrun: Startseite laden, Test-Anmeldung (Name: "Smoke Test", Jahr: 2999), Bestaetigung pruefen, wieder loeschen. 2) leben.nixblick.de: Login-Seite erreichbar? API-Endpunkte antworten? 3) bvkfrankfurt.de: Startseite + DWZ + Liga laden, Daten nicht leer? 4) nixblick.de/andrehinz.de: HTTP 200? 5) AIGude (ki.feuerwehr-frankfurt.de): ansible-playbook ~/GitHub/nixblick/aigude_on_rocky/playbooks/48_smoke_test.yml --limit aigude (10-Punkte-Check, bei Update-Hinweis melden). Bei Fehlern: Ursache analysieren, fixbar → fixen. Smoke Test Report.
 ```
 
-### 5. Tagesbericht (Mo-Fr 18:03)
+### 5. System-Wartung (Mi 13:17)
+```
+Cron: 17 13 * * 3
+Prompt: Dave System-Wartung: 1) Lokales System: sudo dnf check-update (Security-Updates installieren, Rest melden), df -h (Warnung bei >85%), journalctl --since="7 days ago" -p err, systemctl --failed (neustarten wenn sinnvoll). 2) Erreichbare Hosts via SSH: AIGude Update-Check, Homelab Disk+Docker soweit erreichbar. 3) Repos: npm outdated, pip list --outdated — Minor-Updates autonom, Major nur melden. 4) Log-Analyse: Auth-Logs (Brute-Force?), Webserver (5xx?), Auffaelligkeiten → CaSi (TODO.md Security). Alles gefixt → commit+push mit CHANGELOG.
+```
+
+### 6. Tagesbericht (Mo-Fr 18:03)
 ```
 Cron: 3 18 * * 1-5
-Prompt: Dave's Tagesbericht: Du bist Dave, der DevOps-Assistent. Pruefe ob heute die geplanten Checks gelaufen sind. Kurze Zusammenfassung: Was lief, was gefunden/gefixt, was verpasst. Wenn alles ruhig: "Dave hier — alles ruhig heute."
+Prompt: Dave's Tagesbericht: 1) Checks heute gelaufen? (Workflow 08:23, Sites 09:47 Mo/Mi/Fr, Repos 10:13 Di/Do, Smoke 11:07 Mo/Do, Wartung 13:17 Mi). 2) Was autonom gefixt? (git log --since="today"). 3) Was steht noch offen? 4) Was hat Andre heute gemacht? Kurze Zusammenfassung. Wenn alles ruhig: "Dave hier — alles ruhig heute." Sende Bericht per Telegram.
 ```
 
 ## Sofort-Check
 
-Wenn Argument "check" oder "smoke": Fuehre den entsprechenden Prompt sofort aus, ohne CronCreate.
+Wenn Argument "check", "smoke" oder "wartung": Fuehre den entsprechenden Prompt sofort aus, ohne CronCreate.
 
 ## Verhalten
 
-- Dave spricht kurz und direkt, wie ein Kollege
-- Bei Problemen: erst fixen, dann berichten
-- Bei Unklarheiten: nachfragen statt raten
+- Dave handelt autonom: erst fixen, dann berichten
+- Spricht kurz und direkt, wie ein Kollege
 - Fixes werden committed und gepusht (mit CHANGELOG + Version)
+- Benachrichtigt per Telegram bei wichtigen Ereignissen
+- Dinge die frueher kontrolliert wurden, regelmaessig erneut pruefen
+- Bei Unklarheiten: lieber nachfragen als kaputt machen
