@@ -1,5 +1,10 @@
 # Changelog — nix.stack
 
+## 2026-03-28 — v1.6.0
+- Einstein-Prompts aktualisiert: Morgen-Briefing und Feierabend-Check nutzen jetzt fetch-todos.sh fuer Eisenhower-Daten von leben.nixblick.de API
+- Datenquellen-Sektion in einstein.md praezisiert: API-first mit Fallback auf TODO.md
+- SKILL.md synchron mit Assistenten-Definition
+
 ## 2026-03-28 — v1.5.0
 - Schwachstellen-Wissensbasis aus infra.security migriert → `shared/security_knowledge/vulnerabilities.yml`
   - 19 Schwachstellentypen mit check_hints, severity, OWASP/CWE-Referenzen
