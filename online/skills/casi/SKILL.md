@@ -46,7 +46,7 @@ Prompt: CaSi Dependency-Audit: Pruefe Abhaengigkeiten aller Repos unter /home/an
 ### 3. Web-Security-Check (Mi 14:07)
 ```
 Cron: 7 14 * * 3
-Prompt: CaSi Web-Security-Check: Lade ~/GitHub/nixblick/nix.stack/shared/security_knowledge/vulnerabilities.yml. Pruefe Sites: bvkfrankfurt.de, nixblick.de, andrehinz.de, gudeai.de, leben.nixblick.de, linksblatt.nixblick.de, hinjas.de, wir-on-air.de, ki.feuerwehr-frankfurt.de. Pro Site: 1) Security-Headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) 2) SSL/TLS Zertifikat+Ablauf 3) Cookie-Flags 4) CORS 5) Server-Version-Leaks. Score 0-10 pro Site. Bei <7: Fixes vorschlagen. Ranking am Ende.
+Prompt: CaSi Web-Security-Check: Lade ~/GitHub/nixblick/nix.stack/shared/security_knowledge/vulnerabilities.yml und lies ~/.claude/context/OVERVIEW.md fuer die aktuelle Site-Liste. Pruefe alle Live-Sites (URL-Spalte) auf Sicherheit. Pro Site: 1) Security-Headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) 2) SSL/TLS Zertifikat+Ablauf 3) Cookie-Flags 4) CORS 5) Server-Version-Leaks. Score 0-10 pro Site. Bei <7: Fixes vorschlagen. Ranking am Ende.
 ```
 
 ### 4. Wochen-Security-Report (Mo 16:37)

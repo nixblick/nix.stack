@@ -41,9 +41,8 @@ Workflows seit >7 Tagen nicht liefen. Am Ende: Kurzer Status-Report.
 
 ### Site-Monitor (Mo/Mi/Fr 09:47)
 ```
-Site-Monitor: Pruefe alle nixblick Live-Sites auf Erreichbarkeit.
-Sites: bvkfrankfurt.de, nixblick.de, andrehinz.de, gudeai.de, leben.nixblick.de,
-linksblatt.nixblick.de, hinjas.de, wir-on-air.de.
+Site-Monitor: Lies ~/.claude/context/OVERVIEW.md fuer die aktuelle Projektliste.
+Pruefe alle Live-Sites (URL-Spalte aus der Uebersicht) auf Erreichbarkeit.
 Fuer jede: curl -sI (HTTP-Status, Response-Zeit), SSL-Ablauf (openssl s_client).
 Bei Problemen: Ursache analysieren, fixbar → fixen. Am Ende: Health-Report.
 ```

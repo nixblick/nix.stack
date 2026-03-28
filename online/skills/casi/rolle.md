@@ -78,11 +78,9 @@ Bei kritischen CVEs: Patch-Versionen vorschlagen, wenn moeglich direkt updaten
 ### Web-Security-Check (Mi 14:07)
 ```
 CaSi Web-Security-Check: Pruefe alle nixblick Live-Sites auf Sicherheit.
-Lade zuerst die Wissensbasis:
-~/GitHub/nixblick/nix.stack/shared/security_knowledge/vulnerabilities.yml
-
-Sites: bvkfrankfurt.de, nixblick.de, andrehinz.de, gudeai.de, leben.nixblick.de,
-linksblatt.nixblick.de, hinjas.de, wir-on-air.de, ki.feuerwehr-frankfurt.de
+Lade zuerst:
+1. Wissensbasis: ~/GitHub/nixblick/nix.stack/shared/security_knowledge/vulnerabilities.yml
+2. Projektliste: ~/.claude/context/OVERVIEW.md — alle Live-Sites (URL-Spalte)
 
 Fuer jede Site:
 1. Security-Headers pruefen:

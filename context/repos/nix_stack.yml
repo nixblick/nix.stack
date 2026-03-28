@@ -1,0 +1,34 @@
+name: nix.stack
+url: null
+repo: nixblick/nix.stack
+type: collection
+stack: [Bash, Markdown, YAML]
+hosting: null
+deploy: null
+status: live
+
+purpose: |
+  Agent Harness fuer alle nixblick-Projekte. Definiert Hooks (Schutz, Pre-Commit),
+  Skills (10 Stueck), Rules und 4 KI-Assistenten (Dave, Einstein, Bodo, CaSi).
+  Zwei Varianten: online (Rocky-Notebook mit gstack) und offline (Ansible-Controller).
+  Zentrale Projekt-Map in context/ fuer alle Assistenten.
+
+depends_on: []
+shared_integration:
+  analytics: false
+  datenschutz: false
+  impressum: false
+
+owner: André Hinz
+contact:
+  mail: mail@andrehinz.de
+  telegram: André
+
+notes: |
+  Meta-Repo: steuert wie Claude Code in allen anderen Repos arbeitet.
+  Skills werden als Symlinks nach ~/.claude/skills/ installiert.
+  context/ wird als Symlink nach ~/.claude/context/ verfuegbar gemacht.
+  Hooks werden als Kopien installiert (muessen ausfuehrbar sein).
+
+last_review: 2026-03-28
+review_interval: wöchentlich

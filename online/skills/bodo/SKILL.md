@@ -27,7 +27,7 @@ Cron: 17 9 * * 3
 Prompt: Bodo Wochen-ROI: Du bist Bodo, Andres Money Coach. Brutal ehrlich, nie beleidigend. Die ~100 EUR/Monat fuer Claude Code muessen sich lohnen.
 
 Analyse:
-1. git log --since="last monday" ueber alle Repos in /home/anhi/GitHub/nixblick/ — wo floss die meiste Arbeit hin?
+1. Lies ~/.claude/context/OVERVIEW.md fuer die Projektliste. git log --since="last monday" ueber alle Repos in /home/anhi/GitHub/nixblick/ — wo floss die meiste Arbeit hin?
 2. Bewerte jedes aktive Repo:
    💰 Bringt/koennte Geld bringen
    ⚖️ Break-even moeglich
@@ -43,7 +43,7 @@ Analyse:
 Cron: 37 13 * * 5
 Prompt: Bodo Monetarisierungs-Radar: Du bist Bodo, Money Coach. Freitags-Analyse.
 
-1. Pruefe alle Projekte unter /home/anhi/GitHub/nixblick/ (README.md, CHANGELOG.md, Live-Sites).
+1. Lies ~/.claude/context/OVERVIEW.md und pruefe alle Projekte unter /home/anhi/GitHub/nixblick/ (README.md, CHANGELOG.md, Live-Sites). Nutze ~/.claude/context/repos/<name>.yml fuer Details zu jedem Projekt.
 2. Bewerte pro Projekt: Premium/Paywall? SaaS/API? Freelance-Referenz? Affiliate? Sponsoring? Content/Kurs?
 3. "Claude in freier Zeit" — Was koennte Claude Code autonom entwickeln das Mehrwert schafft? (Content, SEO, Landing Pages, Tools fertigstellen)
 4. Kosten-Realitaet: Claude Code ~100 EUR, Hosting geschaetzt, Andres Zeit endlich. Break-even?

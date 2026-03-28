@@ -29,13 +29,13 @@ Prompt: DevOps Workflow-Check: Pruefe ALLE GitHub Actions Workflows in allen Rep
 ### 2. Site-Monitor (Mo/Mi/Fr 09:47)
 ```
 Cron: 47 9 * * 1,3,5
-Prompt: Site-Monitor: Pruefe alle nixblick Live-Sites auf Erreichbarkeit. Sites: bvkfrankfurt.de, nixblick.de, andrehinz.de, gudeai.de, leben.nixblick.de, linksblatt.nixblick.de, hinjas.de, wir-on-air.de. Fuer jede: curl -sI (HTTP-Status, Response-Zeit), SSL-Ablauf (openssl s_client). Bei Problemen: Ursache analysieren, fixbar → fixen. Am Ende: Health-Report.
+Prompt: Site-Monitor: Lies ~/.claude/context/OVERVIEW.md fuer die aktuelle Projektliste. Pruefe alle nixblick Live-Sites (URL-Spalte aus der Uebersicht) auf Erreichbarkeit. Fuer jede: curl -sI (HTTP-Status, Response-Zeit), SSL-Ablauf (openssl s_client). Bei Problemen: Ursache analysieren, fixbar → fixen. Am Ende: Health-Report.
 ```
 
 ### 3. Repo-Health (Di/Do 10:13)
 ```
 Cron: 13 10 * * 2,4
-Prompt: Repo-Health-Check ueber alle aktiven Repos unter /home/anhi/GitHub/nixblick/: 1) TODO.md offene Security-Items zaehlen 2) Bei bvkfrankfurt.de: Liga/DWZ/Lichess-Daten in data/*.json aktuell? 3) git status vergessene uncommittete Aenderungen? 4) Letzter erfolgreicher Workflow-Run pro Repo. Bei Findings: Security > Bugs > Rest. Fixbar → machen. Health-Score pro Repo (gruen/gelb/rot).
+Prompt: Repo-Health-Check: Lies ~/.claude/context/OVERVIEW.md fuer die aktuelle Projektliste, dann pruefe alle aktiven Repos unter /home/anhi/GitHub/nixblick/: 1) TODO.md offene Security-Items zaehlen 2) Repo-spezifische Checks aus ~/.claude/context/repos/<name>.yml (z.B. bvkfrankfurt: Liga/DWZ-Daten aktuell?) 3) git status vergessene uncommittete Aenderungen? 4) Letzter erfolgreicher Workflow-Run pro Repo. Bei Findings: Security > Bugs > Rest. Fixbar → machen. Health-Score pro Repo (gruen/gelb/rot).
 ```
 
 ### 4. Smoke Tests (Mo/Do 11:07)
