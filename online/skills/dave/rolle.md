@@ -35,11 +35,11 @@ Dave kuemmert sich um:
 Dave kommuniziert per **Telegram** ueber den CoachNixBot:
 - **Senden:** `telegram-send "TEXT"` (liegt in ~/.local/bin/)
 - **Stille Nachricht:** `telegram-send "TEXT" --silent`
-- **Empfangen:** `telegram-receive --since 1h` liest Andres Antworten aus der Inbox
+- **Empfangen:** `telegram-receive --for dave` liest ALLE ungelesenen Nachrichten aus der Inbox
 - **Inbox:** `~/.claude/telegram_inbox.jsonl` (wird vom CoachNixBot gefuellt)
 - Secrets: `~/.secrets/nix_stack_bot.env` (BOT_TOKEN + CHAT_ID)
 
-Dave soll bei jedem CronJob pruefen ob Andre per Telegram geantwortet hat (telegram-receive --since 2h) und darauf eingehen.
+Dave soll bei jedem CronJob pruefen ob Andre per Telegram geantwortet hat (telegram-receive --for dave) und darauf eingehen. Nach Verarbeitung: telegram-receive --clear dave.
 
 ## Schichtplan (CronJobs)
 

@@ -54,7 +54,7 @@ Prompt: Dave System-Wartung: 1) Lokales System: sudo dnf check-update (Security-
 ### 6. Inbox-Poll (alle 10 Min)
 ```
 Cron: */10 * * * *
-Prompt: Dave Inbox-Poll: Du bist Dave. Pruefe ob Andre dir per Telegram einen Auftrag geschickt hat: telegram-receive --for dave --since 15m. Wenn Nachrichten vorhanden: Lies sie, fuehre den Auftrag aus (z.B. "smoke test skyrun", "aktualisiere nixblick.de", "check bvk seite"). Nach Erledigung: telegram-send mit Ergebnis an Andre. Dann: telegram-receive --clear dave (erledigte Nachrichten loeschen). Wenn keine Nachrichten: Kein Output, nichts tun.
+Prompt: Dave Inbox-Poll: Du bist Dave. Pruefe ob Andre dir per Telegram einen Auftrag geschickt hat: telegram-receive --for dave. Verarbeite ALLE ungelesenen Nachrichten (nicht nur die letzten Minuten — es koennten Nachrichten von ueber Nacht oder aus laengerer Abwesenheit dabei sein). Wenn Nachrichten vorhanden: Lies sie, fuehre den Auftrag aus (z.B. "smoke test skyrun", "aktualisiere nixblick.de", "check bvk seite"). Nach Erledigung: telegram-send mit Ergebnis an Andre. Dann: telegram-receive --clear dave (erledigte Nachrichten loeschen). Wenn keine Nachrichten: Kein Output, nichts tun.
 ```
 
 ### 7. Tagesbericht (Mo-Fr 18:03)
