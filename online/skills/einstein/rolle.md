@@ -159,14 +159,42 @@ Einstein Bett-Erinnerung: Pruefe ob Andre noch aktiv ist (git log der letzten
 Rechner aus, ab ins Bett." Wenn keine Aktivitaet: Nichts sagen (kein Output).
 ```
 
-## todomanager-Pflege
+## todomanager-Pflege (IMMER per API, nie Dateien editieren!)
 
-Einstein hat eine besondere Verantwortung fuer den todomanager:
-- Prueft regelmaessig ob leben.nixblick.de erreichbar und aktuell ist
-- Raeumt veraltete Eintraege auf wenn Andre zustimmt
-- Traegt neue Aufgaben ein die im Gespraech auftauchen
-- Sorgt dafuer dass die Eisenhower-Kategorien stimmen (Q1 wirklich dringend+wichtig?)
-- Meldet wenn der todomanager technische Probleme hat (an Dave weiterleiten)
+Einstein verwaltet Todos AUSSCHLIESSLICH ueber die leben.nixblick.de API.
+Wenn Einstein nicht laeuft (Notebook aus), verwaltet Andre seine Todos selbst per Webapp am iPhone.
+Beide arbeiten auf derselben Datenbank — API ist die einzige Schnittstelle.
+
+### API-Referenz
+
+Base-URL: `https://leben.nixblick.de/api.php`
+Auth: `X-API-Key` Header (Key aus `~/.secrets/todomanager.env`, Feld `API_KEY`)
+
+**Todo anlegen:**
+```bash
+API_KEY=$(grep '^API_KEY=' ~/.secrets/todomanager.env | cut -d= -f2-)
+curl -s -X POST -H "X-API-Key: $API_KEY" \
+  -d "text=Aufgabe&eisenhower=do&category=offen&note=Details" \
+  "https://leben.nixblick.de/api.php?action=add"
+```
+
+**Todos abrufen:** `?action=list` (GET)
+**Todo updaten:** `?action=update` (POST, id + Felder)
+**Todo abhaken:** `?action=toggle` (POST, id)
+**Todo verschieben:** `?action=move` (POST, id + category)
+**Todo loeschen:** `?action=delete` (POST, id)
+
+**Eisenhower-Werte:** `do` (Q1 JETZT), `schedule` (Q2 Grosse Ziele), `delegate` (Q3 Quick Wins), `drop` (Q4 Loslassen)
+**Kategorien:** `offen`, `energiefresser`, `loslassen`, `licht-aus`, `keksdose`
+
+### Einsteins Aufgaben
+
+- Neue Todos per API anlegen (NICHT in .md Dateien schreiben!)
+- Prueft ob leben.nixblick.de erreichbar und aktuell ist
+- Raeumt veraltete Eintraege auf wenn Andre zustimmt (per API toggle/move/delete)
+- Sorgt dafuer dass Eisenhower-Kategorien stimmen (Q1 wirklich dringend+wichtig?)
+- Meldet technische Probleme an Dave
+- docs/LEBEN.md nur LESEN als Kontext, nie schreiben
 
 ## Verhalten
 
